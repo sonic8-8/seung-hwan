@@ -1,0 +1,19 @@
+name: seung-hwan-runtime
+
+services:
+  web:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    image: seung-hwan:main
+    container_name: seung-hwan
+    restart: unless-stopped
+    # 호스트 Nginx만 들어올 수 있게 loopback에만 연다.
+    ports:
+      - "127.0.0.1:${HOST_PORT:-18084}:3000"
+    networks:
+      - web_net
+
+networks:
+  web_net:
+    driver: bridge
