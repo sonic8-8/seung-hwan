@@ -19,6 +19,9 @@ COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+# lint나 타입 오류가 있으면 빌드 전에 이미지 빌드를 멈춘다.
+RUN npm run lint
+RUN npm run typecheck
 # next.config.ts의 output: "standalone" 때문에 .next/standalone에 실행용 파일이 모인다.
 RUN npm run build
 
