@@ -5,6 +5,7 @@ out
 
 # 이미지에 넣지 않을 것들
 .git
+.scratch
 .env*
 *.pem
 npm-debug.log*
