@@ -26,10 +26,12 @@ Single-context: `GLOSSARY.md` + `docs/adr/` at the repo root. See `docs/agents/d
 
 - Herdr로 pane, 탭, 에이전트를 확인하거나 조작하기 전에 `herdr` 스킬을 불러 그 절차를 따른다.
 - 작업 오케스트레이션을 운영할 때 `agents/orchestrator.md`를 따른다. 역할을 띄울 때는 `agents/`의 역할 파일을 넘긴다.
+- 배포 확인: 운영 `npm test`는 사이트 내용이 같으면 배포 전후를 구분하지 못한다. Windows 쪽 Aside CLI(`/mnt/c/Users/YOU/AppData/Local/Aside/CLI/current/aside.exe`)로 jenkins.sonic8-8.com의 빌드 결과와 콘솔 끝부분을 읽어 확인한다. 읽기만 하고, 로그인은 사용자가 Aside 브라우저에서 한다.
 
 ## 검증 명령
 
-- 타입과 린트: `npx tsc --noEmit`, `npm run lint`
+- 타입과 린트: `npm run typecheck`, `npm run lint`
+- 이 WSL에서는 IPv6 연결이 멈추므로 `curl`에는 `-4`를 붙인다.
 - 빌드와 HTTP 테스트는 Docker로 한다. 이 개발 환경(WSL `networkingMode=virtioproxy`)에서는 Turbopack의 MDX 로더가 loopback 연결에 실패해 로컬 `next dev`, `next build`가 돌지 않는다.
   1. `docker build -t seung-hwan .`
   2. `docker run -d --rm --name sh-test -p 127.0.0.1:3020:3000 seung-hwan`
