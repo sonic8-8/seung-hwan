@@ -46,3 +46,14 @@ test("첫 화면의 머리글에 이름, 포트폴리오, 블로그, sonic8-8.co
   assertLink(nav, "/blog", "블로그");
   assertLink(nav, "https://sonic8-8.com", "sonic8-8.com");
 });
+
+test("블로그의 머리글에 링크 4개가 있고, 글이 없으면 '아직 글이 없습니다'를 보여 준다", async () => {
+  const { status, body } = await get("/blog");
+  assert.equal(status, 200);
+  const nav = header(body);
+  assertLink(nav, "/", "이승환");
+  assertLink(nav, "/portfolio", "포트폴리오");
+  assertLink(nav, "/blog", "블로그");
+  assertLink(nav, "https://sonic8-8.com", "sonic8-8.com");
+  assert.ok(body.includes("아직 글이 없습니다"), "'아직 글이 없습니다'가 없다");
+});
