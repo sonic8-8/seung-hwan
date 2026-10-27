@@ -6,5 +6,13 @@ export const metadata: Metadata = {
 };
 
 export default function PortfolioLayout({ children }: LayoutProps<"/portfolio">) {
-  return <main className={styles.main}>{children}</main>;
+  return (
+    <main className={styles.main}>
+      {/* public/portfolio.pdf는 scripts/portfolio-pdf.sh가 만든다. */}
+      <a href="/portfolio.pdf" className={styles.download}>
+        PDF로 받기
+      </a>
+      {children}
+    </main>
+  );
 }

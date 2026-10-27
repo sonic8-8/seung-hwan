@@ -42,3 +42,29 @@
   max-width: 100%;
   overflow-x: auto;
 }
+
+.download {
+  align-self: flex-start;
+}
+
+/* PDF(인쇄)에는 스크롤이 없으므로 긴 코드 줄과 넓은 표는 줄바꿈하고, 그림과 표의 행은 쪽 경계에서 자르지 않는다. */
+@media print {
+  .download {
+    display: none;
+  }
+
+  .main pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .main table {
+    display: table;
+    overflow-wrap: anywhere;
+  }
+
+  .main img,
+  .main tr {
+    break-inside: avoid;
+  }
+}
