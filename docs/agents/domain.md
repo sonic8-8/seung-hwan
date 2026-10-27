@@ -49,10 +49,3 @@ If the concept you need isn't in the glossary yet, that's a signal: either you'r
 If your output contradicts an existing ADR, surface it explicitly rather than silently overriding:
 
 > _Contradicts ADR-0007 (event-sourced orders), but worth reopening because…_
-
-## Prior records outside this repo
-
-Before this repo had `GLOSSARY.md` and `docs/adr/`, terms and decisions lived in the parent workspace (local only, not in this repo):
-
-- `../CONTEXT.md`: earlier glossary. Source material for `GLOSSARY.md`, not authoritative.
-- `../docs/design/site.md`: decisions D1–D19. Several (D1–D3, D10–D14, D18, D19) predate the 2026-10 premise change (the portfolio now lives on this site) and are being revisited. New decisions go in `docs/adr/`; an ADR that supersedes a D-number says so.
