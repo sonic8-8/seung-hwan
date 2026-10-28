@@ -1,0 +1,14 @@
+#!/bin/sh
+# 커밋 메시지 첫 줄을 Angular 규칙 <타입>(<범위>)?!?: <설명> 으로 검사한다.
+types='feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert'
+# 주석 줄을 건너뛰지 않는다: -m/-F 커밋에서는 '#' 줄도 그대로 첫 줄로 남는다.
+subject=$(head -n 1 "$1")
+
+if ! printf '%s\n' "$subject" | grep -Eq '^[A-Za-z]+(\([^)]+\))?!?: .+'; then
+  echo "commit-msg: 첫 줄이 '<타입>(<범위>)?!?: <설명>' 형식이 아니다: '$subject'" >&2
+  exit 1
+fi
+if ! printf '%s\n' "$subject" | grep -Eq "^($types)[(!:]"; then
+  echo "commit-msg: 타입은 $types 중 하나여야 한다: '$subject'" >&2
+  exit 1
+fi
