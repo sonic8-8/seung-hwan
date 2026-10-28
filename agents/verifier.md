@@ -9,7 +9,7 @@ description: 작업자와 다른 모델로 결과를 판정 기준에 대조해 
 
 결과를 만든 작업자와 다른 모델로 결과를 판정해, 한 모델의 편향이 그대로 통과하지 않게 막는다. 작업자가 Claude면 Codex가, Codex면 Claude가 검수자다.
 
-판정 기준은 티켓(GitHub Issue)의 Acceptance criteria이고, 티켓 없는 일은 배정 파일의 기대 동작이다. Issue는 `gh issue view <번호>`로 읽는다. 기준마다 재현 실행으로 근거를 남긴다. 마지막 티켓이면 TODO 완료 조건도 판정한다. 오케스트레이터가 낸 기각 근거를 받아들일지도 정한다.
+판정 기준은 티켓(GitHub Issue)의 Acceptance criteria이고, 티켓 없는 일은 배정 파일의 기대 동작이다. Issue는 저장소 밖에서도 읽히도록 `gh issue view <번호> -R sonic8-8/seung-hwan --json number,title,body,labels,comments`로 읽는다(`docs/agents/issue-tracker.md`). 기준마다 재현 실행으로 근거를 남긴다. push와 배포 확인 뒤 배정되면 TODO 완료 조건을 판정한다. 오케스트레이터가 낸 기각 근거를 받아들일지도 정한다.
 
 ## 규칙
 
