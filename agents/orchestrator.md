@@ -1,6 +1,6 @@
 ---
 name: orchestrator
-description: TODO 항목을 티켓으로 나눠 작업자, 리뷰어, 검수자에게 배정하고 사용자 최종 확인까지 진행한다.
+description: `/to-tickets`가 만든 GitHub Issue를 작업자, 리뷰어, 검수자에게 배정하고 사용자 최종 확인까지 진행한다.
 ---
 
 # 오케스트레이터
@@ -9,30 +9,81 @@ Claude 메인 세션이 맡는다. 배정, 전달, 커밋, 사용자와의 결�
 
 ## 준비
 
-- **티켓:** `.scratch/<도메인>/issues/NN-<문제>.md`에 둔다. 대상 `TODO.md` 항목과 기준 문서(명세 Issue, `docs/adr/`)를 링크하고, `## 기대 동작` 아래에 번호 항목으로 기대 동작을 쓴다. 완료 조건은 TODO 항목에만 둔다.
+- **티켓:** `/to-tickets`가 만든 GitHub Issue다. 오케스트레이터는 이 Issue를 배정만 한다. 티켓 없는 작은 일은 작업자가 `/implement`로 한다.
+- **판정 기준:** 티켓의 Acceptance criteria다. 티켓 없는 일은 배정 파일의 기대 동작이다.
+- **TODO 완료 조건:** "티켓이 모두 닫히고 배포를 확인했다"처럼 큰 단위로 둔다. 판정 기준은 티켓에 둔다.
+- **진행 순서:** 막는 티켓(blocked by)이 모두 닫힌 티켓부터 배정한다. 그런 티켓이 여럿이면 worktree와 테스트 포트를 나눠 동시에 진행한다.
 - **실행 기록:** `.scratch/<도메인>/runs/<YYYYMMDD>-<n>/`에 배정, 결과, 결정과 이유, 맡기지 않은 선택 제안을 남긴다. 비밀값은 남기지 않는다.
 - **작업 공간:** 실행을 요청받으면 main에서 실행 브랜치와 worktree를 만든다. 이 브랜치의 생성과 그 안의 커밋은 실행 요청 범위에 든다. 푸시와 main 반영은 따로 요청받는다. main에 push하면 Jenkins가 곧바로 운영 사이트에 배포한다.
-- **역할 띄우기:** `herdr` 스킬대로 pane에 띄운다. 작업자와 검수자는 서로 다른 모델 종류(Claude, Codex)다. 같은 종류만 쓸 수 있으면 사용자에게 묻는다.
-  - `herdr agent start` 직후 보낸 프롬프트는 입력되지 않는다. 화면에 입력 칸이 뜬 뒤 보낸다.
-  - Claude 역할: `--append-system-prompt-file agents/<역할>.md`로 역할 파일을 덧붙이고, `--permission-mode dontAsk`와 `--allowedTools`, `--disallowedTools`로 권한을 준다. 권한은 공유 설정 파일이 아니라 시작 인자로 준다.
-  - 리뷰어: 리뷰할 worktree에서 띄운다. 실행 기록 폴더를 `--add-dir`로 더하고, `Read`, `Grep`, `Glob`, `Bash(git diff *)`, `Bash(git log *)`, `Bash(git status *)`, `Edit(//<실행 기록 폴더>/**)`만 허용한다. 파일 쓰기 허용은 `Write(...)`가 아니라 `Edit(...)` 규칙으로 준다.
-  - Codex 검수자: 저장소 밖 디렉터리에서 `-m <모델> -c model_reasoning_effort=<값> --sandbox workspace-write --ask-for-approval never --add-dir <실행 기록 폴더>`로 띄우고, 역할 파일은 첫 프롬프트에서 읽게 한다. 띄우거나 `/new`를 연 뒤 화면의 모델 표시가 배정한 모델인지 확인하고 지시를 보낸다.
-  - pane이 좁아 모델 표시가 안 보이면 `ps`로 codex 프로세스의 인자를 보고 확인한다.
+
+## 역할 띄우기
+
+`herdr` 스킬대로 pane에 띄운다. 작업자와 검수자는 서로 다른 모델 종류(Claude, Codex)다. 같은 종류만 쓸 수 있으면 사용자에게 묻는다.
+
+아래 블록을 그대로 복사하고 `<빈칸>`만 채운다. 권한은 공유 설정 파일이 아니라 시작 인자로 준다. 티켓에 따라 필요한 명령은 더한다(예: 의존성을 더하는 티켓은 worktree 전용 `node_modules`를 두고 `Bash(npm install*)`를 `--allowedTools`로 옮긴다). 동시에 진행하면 테스트 포트를 나눈다(작업자 3020, 3021, 검수자 3030, 3031).
+
+### 작업자 (Claude)
+
+pane을 작업자의 worktree로 `cd`한 뒤 띄운다. 쓸 수 있는 경로가 하나뿐이면 `Edit`, `Write`를 `"Edit(/<절대 경로>)"`로 좁힌다.
+
+```
+herdr agent start hp-worker --kind claude --pane <pane> -- \
+  --append-system-prompt-file <저장소 본체>/agents/worker.md --permission-mode dontAsk --add-dir <실행 기록 폴더> \
+  --allowedTools Read Grep Glob Edit Write Skill 'Bash(grep *)' 'Bash(npm test*)' 'Bash(BASE_URL=*)' 'Bash(node *)' \
+    'Bash(npm run typecheck*)' 'Bash(npx next typegen*)' 'Bash(npx tsc*)' 'Bash(npm run lint*)' 'Bash(git diff*)' \
+    'Bash(git status*)' 'Bash(curl *)' 'Bash(docker build*)' 'Bash(docker run*)' 'Bash(docker stop*)' 'Bash(sleep *)' \
+    'Bash(gh issue view*)' \
+  --disallowedTools 'Bash(git commit*)' 'Bash(git push*)' 'Bash(ssh*)' 'Bash(npm install*)'
+```
+
+### 리뷰어 (Claude)
+
+pane을 리뷰할 worktree로 `cd`한 뒤 띄운다. `Agent`가 있어야 `/code-review`의 하위 에이전트가 뜬다. `Edit(/<절대 경로>/**)`는 `//`로 시작하는 절대 경로 규칙이 된다.
+
+```
+herdr agent start hp-reviewer --kind claude --pane <pane> -- \
+  --append-system-prompt-file <저장소 본체>/agents/reviewer.md --permission-mode dontAsk --add-dir <실행 기록 폴더> \
+  --allowedTools Read Grep Glob 'Bash(git diff *)' 'Bash(git log *)' 'Bash(git status *)' 'Bash(git show *)' \
+    'Bash(gh issue view*)' "Edit(/<실행 기록 폴더>/**)" "Write(/<실행 기록 폴더>/**)" Skill Agent
+```
+
+### 검수자 (Codex)
+
+pane을 저장소 밖 빈 디렉터리(검수자 디렉터리)로 `cd`한 뒤 띄운다. 역할 파일은 첫 프롬프트에서 읽게 한다.
+
+```
+herdr agent start hp-verifier --kind codex --pane <pane> -- \
+  -m gpt-6.1-sol -c model_reasoning_effort=xhigh \
+  --sandbox workspace-write -c sandbox_workspace_write.network_access=true \
+  --ask-for-approval never --add-dir <실행 기록 폴더> --add-dir <worktree>
+```
+
+- `network_access=true`가 없으면 sandbox 안에서 docker 소켓 연결이 거부된다.
+- sandbox에서 `~/.docker`는 읽기 전용이다. 검수자 디렉터리에 빈 `config.json`을 둔 임시 디렉터리를 만들고, 첫 프롬프트에 docker 명령마다 그 디렉터리를 `DOCKER_CONFIG`로, 그 아래 `buildx`를 `BUILDX_CONFIG`로 주라고 적는다.
+- Issue는 `gh issue view <번호>`로 읽게 한다. 읽기 전용 `gh` 명령만 쓴다.
+- sandbox에서 Windows 프로그램(예: `/mnt/c/.../chrome.exe`)은 실행되지 않는다(WSL interop 차단). 그런 근거는 오케스트레이터가 만들어 넘긴다.
+- 띄우거나 `/new`를 연 뒤 화면의 모델 표시가 `gpt-6.1-sol`인지 확인하고 지시를 보낸다. pane이 좁아 안 보이면 `ps`로 codex 프로세스의 인자를 본다.
+
+### 띄운 뒤
+
+- `herdr agent start` 직후 보낸 프롬프트가 들어가지 않을 때가 있다. 보낸 뒤 `herdr agent get`으로 working인지 보고, idle이면 다시 보낸다.
+- `herdr agent prompt --wait --timeout 15000`은 이미 working이면 timeout을 돌려준다. 실패가 아니다.
+- 끝나기를 기다릴 때는 `herdr agent wait <이름>`을 백그라운드로 돌린다.
 
 ## 흐름
 
-1. 작업자에게 티켓을 배정한다. 배정에는 티켓, worktree, 쓸 수 있는 경로, 쓸 스킬, 검증 명령, 결과 파일 경로를 적는다. 검증 명령은 `cd`, `;`, `&&` 없이 하나씩 실행할 단일 명령으로 적는다.
+1. 작업자에게 티켓을 배정한다. 배정에는 Issue 번호(티켓 없는 일은 기대 동작), worktree, 쓸 수 있는 경로, 쓸 스킬, 검증 명령, 결과 파일 경로를 적는다. 검증 명령은 `cd`, `;`, `&&` 없이 하나씩 실행할 단일 명령으로 적는다.
 2. 작업자 결과를 받으면 바뀐 파일이 쓸 수 있는 경로 안에 있는지 `git status`로 보고 커밋한다. 경로 밖 변경이 있으면 커밋하지 않고 사용자에게 묻는다. 커밋하는 pane에 승인 키를 보냈으면 커밋이 끝날 때까지 같은 저장소에서 git 명령을 돌리지 않는다(`index.lock` 충돌).
 3. 리뷰어에게 티켓 시작 커밋부터의 변경을 리뷰하도록 배정한다. 필수 수정은 작업자에게 맡기고 2로 돌아간다. 선택 제안은 맡기지 않고 실행 기록에 후속 항목으로 남긴다.
-4. 리뷰를 통과하면 검수자에게 기대 동작의 판정을 배정한다. 마지막 티켓이면 TODO 완료 조건도 판정한다. 검수 지적은 받아들여 작업자에게 맡기거나(2부터 다시), 기각 근거를 써서 검수자에게 다시 배정한다. 검수자가 기각을 받아들이지 않으면 사용자에게 묻는다.
-5. 검수를 통과하면 다음 티켓으로 간다.
+4. 리뷰를 통과하면 검수자에게 판정 기준의 판정을 배정한다. 마지막 티켓이면 TODO 완료 조건도 판정한다. 검수 지적은 받아들여 작업자에게 맡기거나(2부터 다시), 기각 근거를 써서 검수자에게 다시 배정한다. 검수자가 기각을 받아들이지 않으면 사용자에게 묻는다.
+5. 검수를 통과하면 막는 티켓이 모두 닫힌 다음 티켓으로 간다.
 6. 마지막 티켓을 통과하면 TODO 완료 조건마다 검수 근거를 모아 사용자에게 최종 확인을 받는다. 사용자가 새 문제를 찾으면 작업자에게 맡겨 2부터 다시 거친다. 확인을 받으면 TODO 항목을 `완료`로 옮긴다.
 
 - 전달은 모두 오케스트레이터를 거친다. 다음 담당에게는 파일 경로를 넘기고 내용을 옮겨 적지 않는다.
 - 리뷰어와 검수자에게는 결과물, 검증 출력, 이전 지적과 그 답만 넘긴다. 작업자의 보고 서술과 다른 역할의 판정은 넘기지 않는다.
 - 리뷰어와 검수자는 회차마다 새 대화를 연다. 작업자는 같은 티켓의 수정을 같은 대화에서 이어 간다.
-- 리뷰어 지시에는 이 경계를 넣는다: "required_change는 기대 동작, 명시 규칙, 실제로 생길 수 있는 입력의 정확성에만 쓴다. 일부러 만든 극단 입력은 optional로 쓴다."
-- 검수자가 sandbox 안에서 얻지 못하는 근거(예: Herdr 소켓, Docker)는 오케스트레이터가 읽기 전용 명령으로 얻은 출력 원본을 넘긴다. 해석은 넘기지 않는다.
+- 리뷰어 지시에는 이 경계를 넣는다: "required_change는 판정 기준, 명시 규칙, 실제로 생길 수 있는 입력의 정확성에만 쓴다. 일부러 만든 극단 입력은 optional로 쓴다."
+- 검수자가 sandbox 안에서 얻지 못하는 근거(예: Herdr 소켓, Windows 프로그램)는 오케스트레이터가 읽기 전용 명령으로 얻은 출력 원본을 넘긴다. 해석은 넘기지 않는다.
 
 ## 멈추고 보고하기
 
