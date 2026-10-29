@@ -39,6 +39,14 @@ test("첫 화면에 GitHub, sonic8-8.com 링크와 최근 글이 있다", async 
   assert.ok(content.includes("아직 글이 없습니다"), "'아직 글이 없습니다'가 없다");
 });
 
+test("링크 아이콘 SVG 파일이 응답한다", async () => {
+  for (const path of ["/icons/github.svg", "/icons/link.svg"]) {
+    const { status, headers } = await get(path);
+    assert.equal(status, 200, `${path}가 ${status}로 응답한다`);
+    assert.match(headers["content-type"], /^image\/svg\+xml/);
+  }
+});
+
 test("사진은 대체 텍스트가 있고, 이미지로 응답하며 EXIF가 없다", async () => {
   const { body } = await get("/");
   const img = main(body).match(/<img\b[^>]*src="[^"]*photo[^"]*"[^>]*>/);
