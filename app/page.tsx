@@ -11,8 +11,7 @@ export default function Home() {
         <section className="flex flex-col-reverse gap-8 md:flex-row md:items-end md:gap-6">
           {/* 시안에서 링크 줄 아래 끝이 사진 아래 끝보다 16px 위에 있다. */}
           <div className="md:flex-1 md:pb-4">
-            {/* 39px: 가장 긴 가운데 줄 "OOP와 TDD에 관심이 많은"(10.77em)이 사진 옆 432px에 한 줄로 들어가는 크기 */}
-            <h1 className="text-[1.625rem] leading-[1.42] font-light md:text-[2.4375rem]">
+            <h1 className="text-greeting-narrow font-light md:text-greeting">
               <span className="block">안녕하세요.</span>
               <span className="block">Java와 Spring을 좋아하는</span>
               <span className="block">
@@ -49,7 +48,7 @@ export default function Home() {
         </section>
 
         <section className="mt-22">
-          <h2 className="text-[1.375rem] leading-[1.4] font-medium">최근 글</h2>
+          <h2 className="text-section font-medium">최근 글</h2>
           {recentPosts.length === 0 ? (
             <p className="mt-3 rounded-lg border border-current/10 px-6 py-5">
               <span className="opacity-60">아직 글이 없습니다.</span>
