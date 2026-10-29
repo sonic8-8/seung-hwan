@@ -30,10 +30,11 @@ export default function ThemeToggle() {
       type="button"
       aria-label="라이트·다크 모드 바꾸기"
       onClick={toggle}
-      // 시안(1536px 폭)은 오른쪽 22px, 위 20px의 54px 원. 본문 폭 밖에 자리가 없는 lg 미만에서는 머리글(위 56px)과 겹치지 않게 줄인다.
-      className="absolute top-2 right-4 grid size-10 cursor-pointer place-items-center rounded-full bg-foreground text-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground lg:top-5 lg:right-5.5 lg:size-13.5 print:hidden"
+      // 시안(1536px 폭)은 위·오른쪽 26px의 44px 원, 초승달은 원의 42%(약 18px). 본문 폭 밖에 자리가 없는 lg 미만에서는 머리글(위 56px)과 겹치지 않게 줄인다.
+      className="absolute top-2 right-4 grid size-10 cursor-pointer place-items-center rounded-full bg-foreground text-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground lg:top-6.5 lg:right-6.5 lg:size-11 print:hidden"
     >
-      <svg aria-hidden="true" viewBox="0 0 24 24" className="size-[42%] fill-current">
+      {/* viewBox를 초승달 상자에 맞춰, SVG 크기가 곧 초승달 크기다. */}
+      <svg aria-hidden="true" viewBox="3 3 18 18" className="size-[42%] fill-current">
         <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
       </svg>
     </button>
