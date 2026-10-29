@@ -78,8 +78,11 @@ herdr agent start hp-verifier --kind codex --pane <pane> -- \
 - `herdr agent start` 직후 보낸 프롬프트가 들어가지 않을 때가 있다. 보낸 뒤 `herdr agent get`으로 working인지 보고, idle이면 다시 보낸다.
 - `herdr agent prompt --wait --timeout 15000`은 이미 working이면 timeout을 돌려준다. 실패가 아니다.
 - 끝나기를 기다릴 때는 `herdr agent wait <이름>`을 백그라운드로 돌린다.
-- 오케스트레이터 세션이 끊겼다 이어지면 일을 보내기 전에 역할 에이전트를 위 시작 블록으로 다시 띄운다. pane에 되살아난 에이전트는 대화만 잇고 시작 인자(`--add-dir`, `--allowedTools` 등)가 빠져 있어, 실행 기록 폴더를 읽지 못해 배정을 처리하지 못한다.
-  - 같은 일을 이어 가는 작업자는 블록의 `--` 뒤에 `--resume <세션 id>`를 붙여 대화를 잇는다. 세션 id는 `herdr agent get <이름>`의 `agent_session.value`다. 리뷰어와 검수자는 회차마다 새 대화이므로 그냥 다시 띄운다.
+- 오케스트레이터 세션이 끊겼다 이어지면 일을 보내기 전에 역할 에이전트를 위 시작 블록으로 다시 띄운다. pane에 되살아난 에이전트는 대화만 잇고 시작 인자(`--add-dir`, `--allowedTools` 등)가 빠져 있어, 실행 기록 폴더를 읽지 못해 배정을 처리하지 못한다. 되살아난 에이전트가 pane과 이름을 차지하고 있으므로 다음 순서로 한다.
+  1. 같은 일을 이어 가는 작업자는 `herdr agent get <이름>`의 `agent_session.value`로 세션 id를 먼저 적어 둔다. 끝낸 뒤에는 이름이 비워져 읽을 수 없다. 리뷰어와 검수자는 회차마다 새 대화이므로 적지 않는다.
+  2. 되살아난 에이전트를 끝낸다. Claude는 `herdr agent prompt <이름> "/exit"`, codex는 `herdr agent send-keys <이름> ctrl+c`를 두 번 보낸다.
+  3. `herdr pane read <pane> --source visible`로 pane이 셸 프롬프트로 돌아왔는지 보고, `herdr pane run <pane> "cd <폴더>"`로 역할의 폴더(작업자는 worktree)로 옮긴다.
+  4. 시작 블록으로 띄운다. 1에서 적은 세션 id가 있으면 블록의 `--` 뒤에 `--resume <세션 id>`를 붙여 대화를 잇는다.
   - 끊긴 동안 맡긴 일의 결과 파일이 없으면 같은 배정을 다시 보낸다.
 
 ## 브라우저 확인
