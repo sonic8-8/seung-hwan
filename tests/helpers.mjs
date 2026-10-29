@@ -14,10 +14,13 @@ export function get(path) {
   return new Promise((resolve, reject) => {
     client
       .get(url, { family: 4 }, (res) => {
-        let body = "";
-        res.setEncoding("utf8");
-        res.on("data", (chunk) => (body += chunk));
-        res.on("end", () => resolve({ status: res.statusCode, headers: res.headers, body }));
+        const chunks = [];
+        res.on("data", (chunk) => chunks.push(chunk));
+        res.on("end", () => {
+          // 이미지 같은 바이너리 응답은 buffer로 검사한다.
+          const buffer = Buffer.concat(chunks);
+          resolve({ status: res.statusCode, headers: res.headers, body: buffer.toString("utf8"), buffer });
+        });
       })
       .on("error", reject);
   });
