@@ -50,6 +50,6 @@ test("사진은 대체 텍스트가 있고, 이미지로 응답하며 EXIF가 �
   const { status, headers, buffer } = await get(src);
   assert.equal(status, 200);
   assert.match(headers["content-type"], /^image\//);
-  // JPEG의 EXIF는 APP1 구간의 "Exif\0\0" 머리로 시작한다.
-  assert.ok(!buffer.includes("Exif\0\0"), "사진에 EXIF가 있다");
+  // PNG의 EXIF는 eXIf 청크에, 옛 도구는 "Exif\0\0" 머리를 붙인 텍스트 청크에 넣는다.
+  assert.ok(!buffer.includes("eXIf") && !buffer.includes("Exif\0\0"), "사진에 EXIF가 있다");
 });
