@@ -22,14 +22,17 @@
 }
 
 @layer base {
-  /* 다크 모드. 버튼으로 고른 모드(<html data-theme>)가 먼저이고, 고른 적이 없으면 기기 설정을 따른다. */
-  :root[data-theme="dark"] {
-    --color-background: #0a0a0a;
-    --color-foreground: #ededed;
-    color-scheme: dark;
+  /* 다크 모드. 버튼으로 고른 모드(<html data-theme>)가 먼저이고, 고른 적이 없으면 기기 설정을 따른다.
+     화면에만 걸어, 인쇄(포트폴리오 PDF)는 모드와 관계없이 @theme의 라이트 색으로 나온다. */
+  @media screen {
+    :root[data-theme="dark"] {
+      --color-background: #0a0a0a;
+      --color-foreground: #ededed;
+      color-scheme: dark;
+    }
   }
 
-  @media (prefers-color-scheme: dark) {
+  @media screen and (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --color-background: #0a0a0a;
       --color-foreground: #ededed;
