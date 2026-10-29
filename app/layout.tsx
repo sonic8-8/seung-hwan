@@ -1,18 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
+// 한글 전체를 담은 가변 서체는 2MB라, 쓰인 글자 범위의 조각만 받는 dynamic subset을 쓴다.
+import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "./globals.css";
-import styles from "./layout.module.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: {
@@ -24,14 +14,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ko" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>
-        <header className={styles.header}>
-          <Link href="/" className={styles.name}>
+    <html lang="ko">
+      <body className="font-sans">
+        {/* 포트폴리오 PDF는 이 페이지를 인쇄해 만들므로 머리글을 찍지 않는다. */}
+        <header className="mx-auto flex w-full max-w-160 flex-wrap justify-between gap-4 px-4 pt-6 print:hidden">
+          <Link href="/" className="font-bold">
             이승환
           </Link>
           <nav>
-            <ul className={styles.nav}>
+            <ul className="flex list-none gap-4">
               <li>
                 <Link href="/portfolio">포트폴리오</Link>
               </li>
