@@ -22,13 +22,13 @@ export default function Home() {
             {/* 아이콘은 SVG 파일을 mask로 씌워 그린다. 색은 bg-current라 글자색(다크 모드 포함)을 따른다. */}
             <ul className="mt-5 flex list-none flex-wrap gap-x-10 gap-y-2">
               <li>
-                <a href="https://github.com/sonic8-8" className="flex items-center gap-3">
+                <a href="https://github.com/sonic8-8" className="flex items-center gap-3 transition-opacity hover:opacity-70 motion-reduce:transition-none">
                   <span aria-hidden="true" className="size-5.5 bg-current mask-[url(/icons/github.svg)] mask-contain mask-no-repeat" />
                   <span>GitHub</span>
                 </a>
               </li>
               <li>
-                <a href="https://sonic8-8.com" className="flex items-center gap-3">
+                <a href="https://sonic8-8.com" className="flex items-center gap-3 transition-opacity hover:opacity-70 motion-reduce:transition-none">
                   <span aria-hidden="true" className="size-5.5 bg-current mask-[url(/icons/link.svg)] mask-contain mask-no-repeat" />
                   <span>sonic8-8.com</span>
                 </a>

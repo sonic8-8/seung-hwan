@@ -29,21 +29,21 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* 포트폴리오 PDF는 이 페이지를 인쇄해 만들므로 머리글을 찍지 않는다. */}
         <header className="px-4 pt-14 font-medium print:hidden">
           <nav className="mx-auto flex max-w-content flex-wrap items-baseline justify-between gap-x-8 gap-y-2 border-b border-current/10 pb-3">
-            <Link href="/" className="text-lg">
+            <Link href="/" className="text-lg transition-opacity hover:opacity-70 motion-reduce:transition-none">
               seung-hwan.com
             </Link>
             <ul className="flex list-none gap-8 text-sm">
               <li>
-                <Link href="/about">소개</Link>
+                <Link href="/about" className="transition-opacity hover:opacity-70 motion-reduce:transition-none">소개</Link>
               </li>
               <li>
-                <Link href="/blog">블로그</Link>
+                <Link href="/blog" className="transition-opacity hover:opacity-70 motion-reduce:transition-none">블로그</Link>
               </li>
               <li>
-                <Link href="/portfolio">포트폴리오</Link>
+                <Link href="/portfolio" className="transition-opacity hover:opacity-70 motion-reduce:transition-none">포트폴리오</Link>
               </li>
               <li>
-                <Link href="/playground">놀이터</Link>
+                <Link href="/playground" className="transition-opacity hover:opacity-70 motion-reduce:transition-none">놀이터</Link>
               </li>
             </ul>
           </nav>
