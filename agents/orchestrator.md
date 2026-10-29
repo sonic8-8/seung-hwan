@@ -78,6 +78,9 @@ herdr agent start hp-verifier --kind codex --pane <pane> -- \
 - `herdr agent start` 직후 보낸 프롬프트가 들어가지 않을 때가 있다. 보낸 뒤 `herdr agent get`으로 working인지 보고, idle이면 다시 보낸다.
 - `herdr agent prompt --wait --timeout 15000`은 이미 working이면 timeout을 돌려준다. 실패가 아니다.
 - 끝나기를 기다릴 때는 `herdr agent wait <이름>`을 백그라운드로 돌린다.
+- 오케스트레이터 세션이 끊겼다 이어지면 일을 보내기 전에 역할 에이전트를 위 시작 블록으로 다시 띄운다. pane에 되살아난 에이전트는 대화만 잇고 시작 인자(`--add-dir`, `--allowedTools` 등)가 빠져 있어, 실행 기록 폴더를 읽지 못해 배정을 처리하지 못한다.
+  - 같은 일을 이어 가는 작업자는 블록의 `--` 뒤에 `--resume <세션 id>`를 붙여 대화를 잇는다. 세션 id는 `herdr agent get <이름>`의 `agent_session.value`다. 리뷰어와 검수자는 회차마다 새 대화이므로 그냥 다시 띄운다.
+  - 끊긴 동안 맡긴 일의 결과 파일이 없으면 같은 배정을 다시 보낸다.
 
 ## 브라우저 확인
 
