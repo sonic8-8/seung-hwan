@@ -39,8 +39,10 @@ export function assertLink(html, href, text) {
 
 export function assertHeaderLinks(html) {
   const nav = header(html);
-  assertLink(nav, "/", "이승환");
-  assertLink(nav, "/portfolio", "포트폴리오");
+  assertLink(nav, "/", "seung-hwan.com");
+  assertLink(nav, "/about", "소개");
   assertLink(nav, "/blog", "블로그");
-  assertLink(nav, "https://sonic8-8.com", "sonic8-8.com");
+  assertLink(nav, "/portfolio", "포트폴리오");
+  assertLink(nav, "/playground", "놀이터");
+  assert.ok(!nav.includes("https://sonic8-8.com"), "머리글에 sonic8-8.com 링크가 있다");
 }
