@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import styles from "../page.module.css";
 import { categories, posts } from "./posts";
 
 export const metadata: Metadata = {
@@ -9,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function Blog() {
   return (
-    <main className={styles.main}>
+    <main className="mx-auto flex max-w-160 flex-col gap-3 px-4 py-24 leading-[1.6]">
       <h1>블로그</h1>
       {posts.length === 0 && <p>아직 글이 없습니다.</p>}
       {categories.map((category) => {
