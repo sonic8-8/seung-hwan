@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { posts } from "./blog/posts";
+import TypingLine from "./typing-line";
 
 const recentPosts = [...posts].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
 
@@ -13,7 +14,7 @@ export default function Home() {
           <div className="md:flex-1 md:pb-4">
             <h1 className="text-greeting-narrow font-light md:text-greeting">
               <span className="block">안녕하세요.</span>
-              <span className="block">Java와 Spring을 좋아하는</span>
+              <TypingLine lines={["Java와 Spring을 좋아하는", "OOP와 TDD에 관심이 많은", "AI 에이전트에 관심이 많은", "LLM Eval에 관심이 많은"]} />
               <span className="block">
                 개발자 <strong className="font-bold">이승환</strong>입니다.
               </span>
