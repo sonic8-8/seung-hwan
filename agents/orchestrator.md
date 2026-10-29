@@ -32,12 +32,13 @@ Claude 메인 세션이 맡는다. 배정, 전달, 커밋, 사용자와의 결�
 
 ### 작업자 (Claude)
 
-pane을 작업자의 worktree로 `cd`한 뒤 띄운다. 쓸 수 있는 경로가 하나뿐이면 `Edit`, `Write`를 `"Edit(/<절대 경로>)"`로 좁힌다.
+pane을 작업자의 worktree로 `cd`한 뒤 띄운다. 쓸 수 있는 경로가 하나뿐이면 `Edit`, `Write`를 `"Edit(/<절대 경로>)"`로 좁힌다. `--mcp-config`는 [브라우저 확인](#브라우저-확인)의 Playwright MCP를 넘긴다.
 
 ```
 herdr agent start hp-worker --kind claude --pane <pane> -- \
   --append-system-prompt-file <저장소 본체>/agents/worker.md --permission-mode dontAsk --add-dir <실행 기록 폴더> \
-  --allowedTools Read Grep Glob Edit Write Skill 'Bash(grep *)' 'Bash(npm test*)' 'Bash(BASE_URL=*)' 'Bash(node *)' \
+  --strict-mcp-config --mcp-config <저장소 본체>/.scratch/playwright-mcp.json \
+  --allowedTools Read Grep Glob Edit Write Skill 'mcp__playwright__*' 'Bash(grep *)' 'Bash(npm test*)' 'Bash(BASE_URL=*)' 'Bash(node *)' \
     'Bash(npm run typecheck*)' 'Bash(npx next typegen*)' 'Bash(npx tsc*)' 'Bash(npm run lint*)' 'Bash(git diff*)' \
     'Bash(git status*)' 'Bash(curl *)' 'Bash(docker build*)' 'Bash(docker run*)' 'Bash(docker stop*)' 'Bash(sleep *)' \
     'Bash(gh issue view*)' \
@@ -78,9 +79,25 @@ herdr agent start hp-verifier --kind codex --pane <pane> -- \
 - `herdr agent prompt --wait --timeout 15000`은 이미 working이면 timeout을 돌려준다. 실패가 아니다.
 - 끝나기를 기다릴 때는 `herdr agent wait <이름>`을 백그라운드로 돌린다.
 
+## 브라우저 확인
+
+화면을 고치는 일은 브라우저로 보고 확인한다. 도구를 고른 근거는 [화면 다듬기 도구 조사](../docs/research/screen-testing-tools.md)에 있다.
+
+| 누가 | 무엇으로 | 어느 주소 |
+|---|---|---|
+| 작업자 | 띄울 때 받은 Playwright MCP | 로컬 Docker 미리보기(`http://127.0.0.1:<배정된 포트>/`) |
+| 오케스트레이터 | 저장소 본체에 local 범위로 등록한 Playwright MCP | 로컬 미리보기. 운영 주소는 배포 뒤 확인 때만 |
+| 사람 | Aside | 사람이 함께 둘러볼 때 |
+
+- 작업자에게는 MCP를 등록하지 않고 [작업자 시작 블록](#작업자-claude)의 `--strict-mcp-config --mcp-config`로 넘긴다. 작업자는 worktree 폴더에서 일해 폴더별 local 등록이 닿지 않는다. 설정의 `--isolated`로 오케스트레이터의 브라우저와 부딪히지 않는다.
+- `mcp__playwright__*`에는 임의 코드 실행 도구(`browser_run_code_unsafe`)가 들어 있다. 타이핑 시계 제어(`page.clock`)에 필요해 허용한다.
+- MCP는 작업 폴더(작업자에게는 worktree)와 출력 폴더(`<저장소 본체>/.scratch/playwright-mcp-output/`) 밖에 파일을 쓰지 못한다. `--add-dir`로 준 실행 기록 폴더도 막힌다. 캡처 경로는 배정에 출력 폴더 아래 절대 경로로 적는다. worktree 안 경로는 막히지 않고 써져 쓸 수 있는 경로 밖 변경이 된다.
+- 브라우저가 없어 작업자가 `blocked`를 내면 조사 문서 [4절](../docs/research/screen-testing-tools.md#4-이-wsl에서-띄우는-법)의 Chromium 설치 명령을 한 번 돌린다.
+- MCP 설정을 붙일 수 없는 세션에서는 Playwright CLI를 쓴다. 띄우는 법은 조사 문서 [5절](../docs/research/screen-testing-tools.md#5-작업자-에이전트에-붙이는-법)의 "MCP를 붙일 수 없을 때"에 있다.
+
 ## 흐름
 
-1. 작업자에게 티켓을 배정한다. 배정에는 Issue 번호(티켓 없는 일은 기대 동작), worktree, 쓸 수 있는 경로, 쓸 스킬, 검증 명령, 결과 파일 경로와 "`/implement`의 code-review 단계와 커밋 단계는 하지 않는다(리뷰어와 오케스트레이터가 한다)"를 적는다. 검증 명령은 `cd`, `;`, `&&` 없이 하나씩 실행할 단일 명령으로 적는다. 일은 `herdr agent prompt`로 작업자 pane에 `/mattpocock-skills:implement <배정 파일 경로>`를 보내 시작한다. Issue 번호는 배정 파일 안에 적는다. 이 스킬은 Skill 도구로는 부를 수 없어 pane 입력으로 보낸다.
+1. 작업자에게 티켓을 배정한다. 배정에는 Issue 번호(티켓 없는 일은 기대 동작), worktree, 쓸 수 있는 경로, 쓸 스킬, 검증 명령, 결과 파일 경로, 화면을 고치는 일이면 캡처 경로(출력 폴더 아래 절대 경로, [브라우저 확인](#브라우저-확인))와 "`/implement`의 code-review 단계와 커밋 단계는 하지 않는다(리뷰어와 오케스트레이터가 한다)"를 적는다. 검증 명령은 `cd`, `;`, `&&` 없이 하나씩 실행할 단일 명령으로 적는다. 일은 `herdr agent prompt`로 작업자 pane에 `/mattpocock-skills:implement <배정 파일 경로>`를 보내 시작한다. Issue 번호는 배정 파일 안에 적는다. 이 스킬은 Skill 도구로는 부를 수 없어 pane 입력으로 보낸다.
 2. 작업자 결과를 받으면 바뀐 파일이 쓸 수 있는 경로 안에 있는지 `git status`로 보고 커밋한다. 경로 밖 변경이 있으면 커밋하지 않고 사용자에게 묻는다. 커밋하는 pane에 승인 키를 보냈으면 커밋이 끝날 때까지 같은 저장소에서 git 명령을 돌리지 않는다(`index.lock` 충돌).
 3. 리뷰어에게 티켓 시작 커밋부터의 변경을 리뷰하도록 배정한다. 필수 수정은 작업자에게 맡기고 2로 돌아간다. 선택 제안은 맡기지 않고 실행 기록에 후속 항목으로 남긴다.
 4. 리뷰를 통과하면 검수자에게 판정 기준의 판정을 배정한다. 검수 지적은 받아들여 작업자에게 맡기거나(2부터 다시), 기각 근거를 써서 검수자에게 다시 배정한다. 검수자가 기각을 받아들이지 않으면 사용자에게 묻는다.
