@@ -36,7 +36,8 @@ export default function TypingLine({ lines }: { lines: string[] }) {
       {/* 커서가 줄 상자를 받치므로 다 지워진 순간에도 줄 높이가 남는다. */}
       <span aria-hidden="true">
         {lines[index].slice(0, length)}
-        <span className="ml-0.5 inline-block h-[1em] w-0.5 bg-current align-[-0.1em] motion-reduce:hidden" />
+        {/* 시안의 커서: 글자 끝에서 약 8px(0.2em), 높이 약 44px(1.1em), 글자색의 절반 농도. */}
+        <span className="ml-[0.2em] inline-block h-[1.1em] w-0.5 bg-current/50 align-[-0.15em] motion-reduce:hidden" />
       </span>
       <span className="sr-only">{lines.join(", ")}</span>
     </span>
