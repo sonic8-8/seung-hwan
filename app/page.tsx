@@ -48,9 +48,9 @@ export default function Home() {
               </li>
             </ul>
           </div>
-          {/* public/photo.jpg는 보정한 원본(1839px)을 2배 해상도인 530px로 줄이고 메타데이터를 지운 것이다. */}
+          {/* public/photo.png는 보정한 원본(1839px)을 2배 해상도인 530px로 줄이고 메타데이터를 지운 것이다. */}
           <Image
-            src="/photo.jpg"
+            src="/photo.png"
             alt="흰 벽돌 벽 앞에 앉아 있는 이승환"
             width={264}
             height={264}
