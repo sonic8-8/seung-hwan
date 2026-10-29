@@ -30,6 +30,17 @@ test("첫 화면에 인사말 세 줄이 순서대로 있고, 핸들과 임시 �
   assert.ok(!/sonic8-8(?!\.com)/.test(visible), "핸들 sonic8-8이 남아 있다");
 });
 
+test("인사말 가운데 줄의 네 문장이 HTML에 있고, 바뀌는 줄은 라이브 영역이 아니다", async () => {
+  const { body } = await get("/");
+  const h1 = main(body).match(/<h1[\s\S]*?<\/h1>/);
+  assert.ok(h1, "인사말(<h1>)이 없다");
+  const visible = text(h1[0]);
+  for (const line of ["Java와 Spring을 좋아하는", "OOP와 TDD에 관심이 많은", "AI 에이전트에 관심이 많은", "LLM Eval에 관심이 많은"]) {
+    assert.ok(visible.includes(line), `"${line}"이 없다`);
+  }
+  assert.ok(!/aria-live|role="(status|log|marquee|timer|alert)"/.test(h1[0]), "인사말에 라이브 영역이 있다");
+});
+
 test("첫 화면에 GitHub, sonic8-8.com 링크와 최근 글이 있다", async () => {
   const { body } = await get("/");
   const content = main(body);
