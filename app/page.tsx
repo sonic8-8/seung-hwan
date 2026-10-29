@@ -58,7 +58,9 @@ export default function Home() {
             <ul className="mt-3 flex list-none flex-col gap-3">
               {recentPosts.map((post) => (
                 <li key={post.slug} className="flex justify-between gap-4 rounded-lg border border-current/10 px-6 py-5">
-                  <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+                  <Link href={`/blog/${post.slug}`} className="transition-opacity hover:opacity-70 motion-reduce:transition-none">
+                    {post.title}
+                  </Link>
                   <time dateTime={post.date} className="shrink-0 opacity-60">
                     {post.date}
                   </time>
