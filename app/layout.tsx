@@ -18,7 +18,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="font-sans">
         {/* 포트폴리오 PDF는 이 페이지를 인쇄해 만들므로 머리글을 찍지 않는다. */}
         <header className="px-4 pt-14 font-medium print:hidden">
-          <nav className="mx-auto flex max-w-180 flex-wrap items-baseline justify-between gap-x-8 gap-y-2 border-b border-current/10 pb-3">
+          <nav className="mx-auto flex max-w-content flex-wrap items-baseline justify-between gap-x-8 gap-y-2 border-b border-current/10 pb-3">
             <Link href="/" className="text-lg">
               seung-hwan.com
             </Link>

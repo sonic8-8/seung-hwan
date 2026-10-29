@@ -5,6 +5,8 @@
 
 @theme {
   --font-sans: "Pretendard Variable", Pretendard, system-ui, sans-serif;
+  /* 시안의 본문 폭 720px. max-w-content로 쓴다. */
+  --container-content: 45rem;
 }
 
 @layer base {
