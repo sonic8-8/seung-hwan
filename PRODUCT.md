@@ -35,7 +35,7 @@ web
 - 언어는 한국어(`lang="ko"`).
 - Next.js(App Router, MDX), TypeScript. Docker 이미지로 빌드해 Hetzner 서버에서 운영한다.
 - 스타일은 Tailwind CSS로 쓴다(ADR-0002).
-- 첫 화면 소개 문구는 임시다("백엔드 개발자입니다.").
+- 첫 화면 인사말의 가운데 줄은 지금 "Java와 Spring을 좋아하는"으로 고정이다.
 
 ## Brand Commitments
 
