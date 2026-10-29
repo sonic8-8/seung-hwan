@@ -7,6 +7,15 @@
   --font-sans: "Pretendard Variable", Pretendard, system-ui, sans-serif;
   /* 시안의 본문 폭 720px. max-w-content로 쓴다. */
   --container-content: 45rem;
+  /* 홈 인사말. 39px: 가장 긴 가운데 줄 "OOP와 TDD에 관심이 많은"(10.77em)이 사진 옆 432px에 한 줄로 들어가는 크기.
+     줄 간격 1.42는 시안의 줄 간격 55.5px. 좁은 화면 26px는 같은 줄이 320px 화면(본문 288px)에 들어가는 크기. */
+  --text-greeting: 2.4375rem;
+  --text-greeting--line-height: 1.42;
+  --text-greeting-narrow: 1.625rem;
+  --text-greeting-narrow--line-height: 1.42;
+  /* 홈 "최근 글" 같은 구역 제목. 시안의 "최근 글" 폭 61px(2.84em)에서 잰 22px. */
+  --text-section: 1.375rem;
+  --text-section--line-height: 1.4;
 }
 
 @layer base {
