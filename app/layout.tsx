@@ -17,20 +17,23 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="ko">
       <body className="font-sans">
         {/* 포트폴리오 PDF는 이 페이지를 인쇄해 만들므로 머리글을 찍지 않는다. */}
-        <header className="mx-auto flex w-full max-w-160 flex-wrap justify-between gap-4 px-4 pt-6 print:hidden">
-          <Link href="/" className="font-bold">
-            이승환
-          </Link>
-          <nav>
-            <ul className="flex list-none gap-4">
+        <header className="px-4 pt-14 font-medium print:hidden">
+          <nav className="mx-auto flex max-w-180 flex-wrap items-baseline justify-between gap-x-8 gap-y-2 border-b border-current/10 pb-3">
+            <Link href="/" className="text-lg">
+              seung-hwan.com
+            </Link>
+            <ul className="flex list-none gap-8 text-sm">
               <li>
-                <Link href="/portfolio">포트폴리오</Link>
+                <Link href="/about">소개</Link>
               </li>
               <li>
                 <Link href="/blog">블로그</Link>
               </li>
               <li>
-                <a href="https://sonic8-8.com">sonic8-8.com</a>
+                <Link href="/portfolio">포트폴리오</Link>
+              </li>
+              <li>
+                <Link href="/playground">놀이터</Link>
               </li>
             </ul>
           </nav>
