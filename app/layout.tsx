@@ -27,12 +27,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="bg-background font-sans text-foreground">
         {/* 포트폴리오 PDF는 이 페이지를 인쇄해 만들므로 머리글을 찍지 않는다. */}
-        <header className="px-4 pt-14 font-medium print:hidden">
+        <header className="px-4 pt-5 font-medium print:hidden">
           <nav className="mx-auto flex max-w-content flex-wrap items-baseline justify-between gap-x-8 gap-y-2 border-b border-current/10 pb-3">
             <Link href="/" className="text-lg transition-opacity hover:opacity-70 motion-reduce:transition-none">
               seung-hwan.com
             </Link>
-            <ul className="flex list-none gap-8 text-base">
+            {/* 848px보다 좁으면 다크 모드 버튼(오른쪽 16px, 40px)이 첫 줄 오른쪽 끝에 걸리므로 메뉴를 버튼 폭과 간격 8px만큼 비켜 둔다.
+                메뉴가 아래 줄로 내려가도 이 여백 때문에 메뉴가 줄어 글자가 꺾이지 않게 shrink-0을 둔다. */}
+            <ul className="flex shrink-0 list-none gap-8 text-base max-[53rem]:mr-12">
               <li>
                 <Link href="/about" className="transition-opacity hover:opacity-70 motion-reduce:transition-none">소개</Link>
               </li>
