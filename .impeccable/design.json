@@ -6,7 +6,67 @@
     "colorMeta": {
       "background": {
         "role": "neutral",
-        "displayName": "종이 흰색",
+        "displayName": "옅은 아연 회색",
+        "canonical": "#e4e4e7",
+        "tonalRamp": [
+          "#09090b",
+          "#18181b",
+          "#27272a",
+          "#3f3f46",
+          "#71717a",
+          "#a1a1aa",
+          "#d4d4d8",
+          "#e4e4e7"
+        ]
+      },
+      "foreground": {
+        "role": "neutral",
+        "displayName": "먹색",
+        "canonical": "#09090b",
+        "tonalRamp": [
+          "#09090b",
+          "#18181b",
+          "#27272a",
+          "#3f3f46",
+          "#71717a",
+          "#a1a1aa",
+          "#d4d4d8",
+          "#f4f4f5"
+        ]
+      },
+      "background-dark": {
+        "role": "neutral",
+        "displayName": "차콜",
+        "canonical": "#27272a",
+        "tonalRamp": [
+          "#09090b",
+          "#18181b",
+          "#27272a",
+          "#3f3f46",
+          "#71717a",
+          "#a1a1aa",
+          "#d4d4d8",
+          "#f4f4f5"
+        ]
+      },
+      "foreground-dark": {
+        "role": "neutral",
+        "displayName": "회백",
+        "canonical": "#e4e4e7",
+        "tonalRamp": [
+          "#18181b",
+          "#27272a",
+          "#3f3f46",
+          "#71717a",
+          "#a1a1aa",
+          "#d4d4d8",
+          "#e4e4e7",
+          "#fafafa"
+        ]
+      },
+      "background-print": {
+        "role": "neutral",
+        "displayName": "인쇄 흰색",
         "canonical": "#ffffff",
         "tonalRamp": [
           "#171717",
@@ -19,9 +79,9 @@
           "#ffffff"
         ]
       },
-      "foreground": {
+      "foreground-print": {
         "role": "neutral",
-        "displayName": "먹색",
+        "displayName": "인쇄 먹색",
         "canonical": "#171717",
         "tonalRamp": [
           "#0a0a0a",
@@ -32,36 +92,6 @@
           "#a3a3a3",
           "#d4d4d4",
           "#f5f5f5"
-        ]
-      },
-      "background-dark": {
-        "role": "neutral",
-        "displayName": "밤 검정",
-        "canonical": "#0a0a0a",
-        "tonalRamp": [
-          "#0a0a0a",
-          "#171717",
-          "#262626",
-          "#404040",
-          "#737373",
-          "#a3a3a3",
-          "#d4d4d4",
-          "#f5f5f5"
-        ]
-      },
-      "foreground-dark": {
-        "role": "neutral",
-        "displayName": "달빛 회백",
-        "canonical": "#ededed",
-        "tonalRamp": [
-          "#171717",
-          "#262626",
-          "#404040",
-          "#737373",
-          "#a3a3a3",
-          "#d4d4d4",
-          "#ededed",
-          "#fafafa"
         ]
       }
     },
@@ -126,7 +156,7 @@
       "refersTo": "nav-bar",
       "description": "모든 페이지 위(위 여백 20px)의 720px 가운데 단 머리줄. 왼쪽 사이트 이름, 오른쪽 메뉴, 아래 옅은 선. 848px 미만에서는 테마 버튼 자리로 메뉴 오른쪽 48px를 비운다.",
       "html": "<nav class=\"ds-nav\"><a href=\"#\" class=\"ds-nav-name\">seung-hwan.com</a><ul class=\"ds-nav-menu\"><li><a href=\"#\">소개</a></li><li><a href=\"#\">블로그</a></li><li><a href=\"#\">포트폴리오</a></li><li><a href=\"#\">놀이터</a></li></ul></nav>",
-      "css": ".ds-nav { max-width: 45rem; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 2rem; padding-bottom: 0.75rem; border-bottom: 1px solid color-mix(in oklab, currentColor 10%, transparent); font-family: \"Pretendard Variable\", Pretendard, system-ui, sans-serif; font-weight: 500; color: var(--color-foreground, #171717); } .ds-nav a { color: inherit; text-decoration: none; transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-nav a:hover { opacity: 0.7; } .ds-nav a:focus-visible { outline: 2px solid var(--color-foreground, #171717); outline-offset: 2px; } .ds-nav-name { font-size: 1.125rem; } .ds-nav-menu { display: flex; flex-shrink: 0; gap: 2rem; list-style: none; margin: 0; padding: 0; font-size: 1rem; } @media (max-width: 53rem) { .ds-nav-menu { margin-right: 3rem; } }"
+      "css": ".ds-nav { max-width: 45rem; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 2rem; padding-bottom: 0.75rem; border-bottom: 1px solid color-mix(in oklab, currentColor 10%, transparent); font-family: \"Pretendard Variable\", Pretendard, system-ui, sans-serif; font-weight: 500; color: var(--color-foreground, #09090b); } .ds-nav a { color: inherit; text-decoration: none; transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-nav a:hover { opacity: 0.7; } .ds-nav a:focus-visible { outline: 2px solid var(--color-foreground, #09090b); outline-offset: 2px; } .ds-nav-name { font-size: 1.125rem; } .ds-nav-menu { display: flex; flex-shrink: 0; gap: 2rem; list-style: none; margin: 0; padding: 0; font-size: 1rem; } @media (max-width: 53rem) { .ds-nav-menu { margin-right: 3rem; } }"
     },
     {
       "name": "Theme Toggle",
@@ -134,7 +164,7 @@
       "refersTo": "theme-toggle",
       "description": "오른쪽 위 반전색 원형 버튼. 1024px 미만 지름 40px(위 14px, 오른쪽 16px), 이상 44px(위 12px, 오른쪽 26px). 세로 중심은 네비게이션 줄 중심 34px. 라이트·다크 모드를 바꾼다.",
       "html": "<button type=\"button\" class=\"ds-theme-toggle\" aria-label=\"라이트·다크 모드 바꾸기\"><svg aria-hidden=\"true\" viewBox=\"3 3 18 18\"><path d=\"M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z\"/></svg></button>",
-      "css": ".ds-theme-toggle { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 9999px; cursor: pointer; background: var(--color-foreground, #171717); color: var(--color-background, #ffffff); } .ds-theme-toggle svg { width: 42%; height: 42%; fill: currentColor; } .ds-theme-toggle:focus-visible { outline: 2px solid var(--color-foreground, #171717); outline-offset: 2px; }"
+      "css": ".ds-theme-toggle { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 9999px; cursor: pointer; background: var(--color-foreground, #09090b); color: var(--color-background, #e4e4e7); } .ds-theme-toggle svg { width: 42%; height: 42%; fill: currentColor; } .ds-theme-toggle:focus-visible { outline: 2px solid var(--color-foreground, #09090b); outline-offset: 2px; }"
     },
     {
       "name": "Profile Photo",
@@ -150,7 +180,7 @@
       "refersTo": "list-row",
       "description": "\"최근 글\" 목록 행. 옅은 테두리 상자 안에 제목 링크와 날짜. 글이 없으면 같은 상자 한 칸에 60% 글자로 \"아직 글이 없습니다.\"를 보이고, 블로그 빈 목록과 포트폴리오 임시 원고도 이 상자를 쓴다.",
       "html": "<ul class=\"ds-list\"><li class=\"ds-row\"><a href=\"#\">글 제목</a><time>2026-10-01</time></li></ul><p class=\"ds-row ds-row-empty\"><span>아직 글이 없습니다.</span></p>",
-      "css": ".ds-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; } .ds-row { display: flex; justify-content: space-between; gap: 1rem; padding: 1.25rem 1.5rem; border: 1px solid color-mix(in oklab, currentColor 10%, transparent); border-radius: 0.5rem; color: var(--color-foreground, #171717); } .ds-row a { color: inherit; text-decoration: none; transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-row a:hover { opacity: 0.7; } .ds-row a:focus-visible { outline: 2px solid var(--color-foreground, #171717); outline-offset: 2px; } .ds-row time { flex-shrink: 0; opacity: 0.6; } .ds-row-empty { margin: 0.75rem 0 0; } .ds-row-empty span { opacity: 0.6; }"
+      "css": ".ds-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; } .ds-row { display: flex; justify-content: space-between; gap: 1rem; padding: 1.25rem 1.5rem; border: 1px solid color-mix(in oklab, currentColor 10%, transparent); border-radius: 0.5rem; color: var(--color-foreground, #09090b); } .ds-row a { color: inherit; text-decoration: none; transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-row a:hover { opacity: 0.7; } .ds-row a:focus-visible { outline: 2px solid var(--color-foreground, #09090b); outline-offset: 2px; } .ds-row time { flex-shrink: 0; opacity: 0.6; } .ds-row-empty { margin: 0.75rem 0 0; } .ds-row-empty span { opacity: 0.6; }"
     },
     {
       "name": "Page Title",
@@ -158,7 +188,7 @@
       "refersTo": "page-title",
       "description": "블로그·포트폴리오 페이지 첫 줄의 제목(Section 글자). 포트폴리오는 오른쪽 끝에 밑줄 친 \"PDF로 받기\" 링크를 기준선에 맞춰 둔다.",
       "html": "<div class=\"ds-page-title\"><h1>포트폴리오</h1><a href=\"#\">PDF로 받기</a></div>",
-      "css": ".ds-page-title { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; color: var(--color-foreground, #171717); } .ds-page-title h1 { margin: 0; font-size: 1.375rem; line-height: 1.4; font-weight: 500; } .ds-page-title a { color: inherit; text-decoration: underline; text-underline-offset: 0.2em; } .ds-page-title a:focus-visible { outline: 2px solid var(--color-foreground, #171717); outline-offset: 2px; }"
+      "css": ".ds-page-title { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; color: var(--color-foreground, #09090b); } .ds-page-title h1 { margin: 0; font-size: 1.375rem; line-height: 1.4; font-weight: 500; } .ds-page-title a { color: inherit; text-decoration: underline; text-underline-offset: 0.2em; } .ds-page-title a:focus-visible { outline: 2px solid var(--color-foreground, #09090b); outline-offset: 2px; }"
     },
     {
       "name": "Icon Link",
@@ -166,12 +196,12 @@
       "refersTo": "icon-link",
       "description": "홈 인사말 아래 GitHub·sonic8-8.com 링크. 22px 아이콘은 글자색을 따른다.",
       "html": "<a href=\"#\" class=\"ds-icon-link\"><svg aria-hidden=\"true\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7\"/><path d=\"M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7\"/></svg><span>sonic8-8.com</span></a>",
-      "css": ".ds-icon-link { display: flex; align-items: center; gap: 0.75rem; color: var(--color-foreground, #171717); text-decoration: none; transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-icon-link svg { width: 22px; height: 22px; } .ds-icon-link:hover { opacity: 0.7; } .ds-icon-link:focus-visible { outline: 2px solid var(--color-foreground, #171717); outline-offset: 2px; }"
+      "css": ".ds-icon-link { display: flex; align-items: center; gap: 0.75rem; color: var(--color-foreground, #09090b); text-decoration: none; transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-icon-link svg { width: 22px; height: 22px; } .ds-icon-link:hover { opacity: 0.7; } .ds-icon-link:focus-visible { outline: 2px solid var(--color-foreground, #09090b); outline-offset: 2px; }"
     }
   ],
   "narrative": {
     "northStar": "한 장의 명함",
-    "overview": "사이트는 흰 종이 한 장 위에 이름, 인사말, 실제 사진 한 장만 올려 둔 명함처럼 보인다. 색은 바탕색과 글자색 두 개뿐이고, 화면에서 색을 띠는 것은 사진(흰 벽돌 벽과 저녁빛)뿐이다. 보조 글자와 선은 따로 회색을 두지 않고 글자색의 농도를 낮춰 만든다. 그래서 다크 모드는 두 변수만 바꾸면 화면 전체가 따라온다.\n\n밀도는 낮다. 본문은 720px(45rem) 가운데 한 단이고, 구역 사이를 넓게 띄운다. 그림자, 그라데이션, 강조색이 없다. 깊이는 옅은 테두리 한 줄과 둥근 모서리로만 나눈다. 움직임은 링크의 농도 변화와 인사말 가운데 줄의 타자 효과뿐이고, 동작 줄이기 설정에서는 둘 다 멈춘다.",
+    "overview": "사이트는 옅은 회색 종이 한 장 위에 이름, 인사말, 실제 사진 한 장만 올려 둔 명함처럼 보인다. 색은 바탕색과 글자색 두 개뿐이고, 화면에서 색을 띠는 것은 사진(흰 벽돌 벽과 저녁빛)뿐이다. 보조 글자와 선은 따로 회색을 두지 않고 글자색의 농도를 낮춰 만든다. 그래서 다크 모드는 두 변수만 바꾸면 화면 전체가 따라온다.\n\n밀도는 낮다. 본문은 720px(45rem) 가운데 한 단이고, 구역 사이를 넓게 띄운다. 그림자, 그라데이션, 강조색이 없다. 깊이는 옅은 테두리 한 줄과 둥근 모서리로만 나눈다. 움직임은 링크의 농도 변화와 인사말 가운데 줄의 타자 효과뿐이고, 동작 줄이기 설정에서는 둘 다 멈춘다.",
     "keyCharacteristics": [
       "바탕색과 글자색 두 토큰, 다크 모드는 같은 변수를 덮어쓴다.",
       "보조 글자는 글자색 60%, 선과 테두리는 글자색 10%.",
@@ -217,7 +247,7 @@
       "**Don't** 강조색이나 회색 hex를 새로 더하지 않는다. 화면의 색은 사진에서만 온다.",
       "**Don't** 그림자나 그라데이션으로 깊이를 만들지 않는다.",
       "**Don't** Pretendard Variable 말고 다른 서체를 더하지 않는다.",
-      "**Don't** 다크 색을 `@media screen` 밖에 두지 않는다. 인쇄는 라이트 색이어야 한다."
+      "**Don't** 다크 색을 `@media screen` 밖에 두지 않는다. 인쇄는 흰 바탕의 인쇄 색이어야 한다."
     ]
   }
 }
