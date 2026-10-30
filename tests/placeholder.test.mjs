@@ -12,6 +12,6 @@ for (const [path, title] of [
     assertHeaderLinks(body);
     assert.match(body, new RegExp(`<h1\\b[^>]*>${title}</h1>`), `제목(h1) '${title}'가 없다`);
     assert.ok(body.includes("준비 중입니다."), "'준비 중입니다.'가 없다");
-    assert.match(body, new RegExp(`<title>${title} \\| 이승환</title>`));
+    assert.match(body, new RegExp(`<title>개발자 이승환 \\| ${title}</title>`));
   });
 }

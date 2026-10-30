@@ -1,5 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { get, assertHeaderLinks, assertLink } from "./helpers.mjs";
 
 function main(html) {
@@ -13,10 +14,28 @@ function text(html) {
   return html.replace(/<span class="sr-only">[\s\S]*?<\/span>/g, "").replace(/<[^>]*>/g, "");
 }
 
-test("첫 화면의 머리글에 seung-hwan.com, 소개, 블로그, 포트폴리오, 놀이터 링크가 있다", async () => {
+test("첫 화면의 머리글에 seung-hwan.com, 소개, 블로그, 포트폴리오, 놀이터 링크가 있고, 탭 제목은 '개발자 이승환'이다", async () => {
   const { status, body } = await get("/");
   assert.equal(status, 200);
   assertHeaderLinks(body);
+  assert.match(body, /<title>개발자 이승환<\/title>/);
+});
+
+test("탭 아이콘이 ICO로 응답하고, 16px 그림이 있으며, Next.js 기본 아이콘이 아니다", async () => {
+  const { body } = await get("/");
+  const link = body.match(/<link\b[^>]*\brel="icon"[^>]*>/);
+  assert.ok(link, "탭 아이콘 링크가 없다");
+  const href = link[0].match(/\bhref="([^"]*)"/)[1];
+  const { status, headers, buffer } = await get(href);
+  assert.equal(status, 200);
+  assert.match(headers["content-type"], /^image\/(x-icon|vnd\.microsoft\.icon)/);
+  // ICO 머리(예약 0, 형식 1, 그림 수)와 그림마다 16바이트 목록. 폭 바이트 16이 크롬 탭 크기다.
+  assert.equal(buffer.readUInt16LE(2), 1, "ICO 형식이 아니다");
+  const widths = Array.from({ length: buffer.readUInt16LE(4) }, (_, i) => buffer[6 + i * 16]);
+  assert.ok(widths.includes(16), `16px 그림이 없다(${widths})`);
+  // 첫 커밋에 들어 있던 create-next-app 기본 favicon.ico(Next.js 로고)의 SHA-256.
+  const nextDefault = "c28fdd2a4f31e2dc64f653962286da5c82a4cdfc518b242d32812c624e9a19a4";
+  assert.notEqual(createHash("sha256").update(buffer).digest("hex"), nextDefault, "Next.js 기본 아이콘이다");
 });
 
 test("첫 화면에 인사말 세 줄이 순서대로 있고, 핸들과 임시 문구는 없다", async () => {

@@ -108,9 +108,13 @@
         "displayName": "Section",
         "purpose": "\"최근 글\" 같은 구역 제목, 소개·블로그·포트폴리오·놀이터 페이지 제목."
       },
+      "site-name": {
+        "displayName": "Site name",
+        "purpose": "848px 이상에서 네비게이션 바 왼쪽 홈 링크 seung-hwan.com(500, 1.125rem)."
+      },
       "logo": {
         "displayName": "Logo",
-        "purpose": "네비게이션 바의 글자 로고 \"sh.\"(700, 1.5rem, 자간 -0.04em). 점은 글자색 45%. 링크 이름은 seung-hwan.com."
+        "purpose": "848px보다 좁은 화면에서 네비게이션 바 왼쪽 홈 링크인 글자 로고 \"sh.\"(700, 1.5rem, 자간 -0.04em). 점은 글자색 45%. 링크 이름도 보이는 글자 \"sh.\"다. 탭 아이콘에도 같은 글자를 쓴다."
       },
       "menu": {
         "displayName": "Menu",
@@ -154,9 +158,9 @@
       "name": "Navigation",
       "kind": "nav",
       "refersTo": "nav-bar",
-      "description": "모든 페이지 위(위 여백 20px)의 720px 가운데 단 머리줄. 왼쪽 글자 로고 \"sh.\"(링크 이름 seung-hwan.com), 오른쪽 메뉴, 아래 옅은 선. 지금 페이지 메뉴는 aria-current=\"page\"와 글자색 2px 밑줄. 848px 미만에서는 화면 위에 붙고(sticky, 바탕색, 위 여백 12px), 메뉴 간격 12px, 테마 버튼 자리로 오른쪽 48px를 비우며, 메뉴 링크의 누르는 높이를 44px로 늘린다.",
-      "html": "<nav class=\"ds-nav\"><a href=\"#\" class=\"ds-nav-logo\" aria-label=\"seung-hwan.com\">sh<span>.</span></a><ul class=\"ds-nav-menu\"><li><a href=\"#\">소개</a></li><li><a href=\"#\" aria-current=\"page\">블로그</a></li><li><a href=\"#\">포트폴리오</a></li><li><a href=\"#\">놀이터</a></li></ul></nav>",
-      "css": ".ds-nav { max-width: 45rem; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.75rem 2rem; padding-bottom: 0.75rem; border-bottom: 1px solid color-mix(in oklab, currentColor 10%, transparent); font-family: \"Pretendard Variable\", Pretendard, system-ui, sans-serif; font-weight: 500; color: var(--color-foreground, #09090b); } .ds-nav a { color: inherit; text-decoration: none; text-decoration-thickness: 2px; text-underline-offset: 6px; transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-nav a[aria-current=\"page\"] { text-decoration-line: underline; } .ds-nav a:hover { opacity: 0.7; } .ds-nav a:focus-visible { outline: 2px solid var(--color-foreground, #09090b); outline-offset: 2px; } .ds-nav-logo { font-size: 1.5rem; line-height: 1.75rem; font-weight: 700; letter-spacing: -0.04em; } .ds-nav-logo span { opacity: 0.45; } .ds-nav-menu { display: flex; flex-shrink: 0; gap: 2rem; list-style: none; margin: 0; padding: 0; font-size: 1rem; } @media (width < 53rem) { .ds-nav { column-gap: 1rem; padding-right: 3rem; } .ds-nav-menu { gap: 0.75rem; } .ds-nav-menu a { display: inline-block; padding: 0.625rem 0; margin: -0.625rem 0; } }"
+      "description": "모든 페이지 위(위 여백 20px)의 720px 가운데 단 머리줄. 왼쪽 홈 링크는 848px 이상에서 사이트 이름 seung-hwan.com, 848px 미만에서 글자 로고 \"sh.\"다(두 글자를 다 두고 폭에 맞지 않는 쪽을 display:none으로 숨겨 화면 읽기 프로그램도 보이는 글자를 읽음, aria-label 없음). 오른쪽 메뉴, 아래 옅은 선. 지금 페이지 메뉴는 aria-current=\"page\"와 글자색 2px 밑줄. 848px 미만에서는 화면 위에 붙고(sticky, 바탕색, 위 여백 12px), 메뉴 간격 12px, 테마 버튼 자리로 오른쪽 48px를 비우며, 메뉴 링크의 누르는 높이를 44px로 늘린다.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\" class=\"ds-nav-home\"><span class=\"ds-nav-logo\">sh<span>.</span></span><span class=\"ds-nav-site\">seung-hwan.com</span></a><ul class=\"ds-nav-menu\"><li><a href=\"#\">소개</a></li><li><a href=\"#\" aria-current=\"page\">블로그</a></li><li><a href=\"#\">포트폴리오</a></li><li><a href=\"#\">놀이터</a></li></ul></nav>",
+      "css": ".ds-nav { max-width: 45rem; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.75rem 2rem; padding-bottom: 0.75rem; border-bottom: 1px solid color-mix(in oklab, currentColor 10%, transparent); font-family: \"Pretendard Variable\", Pretendard, system-ui, sans-serif; font-weight: 500; color: var(--color-foreground, #09090b); } .ds-nav a { color: inherit; text-decoration: none; text-decoration-thickness: 2px; text-underline-offset: 6px; transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-nav a[aria-current=\"page\"] { text-decoration-line: underline; } .ds-nav a:hover { opacity: 0.7; } .ds-nav a:focus-visible { outline: 2px solid var(--color-foreground, #09090b); outline-offset: 2px; } .ds-nav-home { font-size: 1.125rem; line-height: 1.75rem; } .ds-nav-logo { display: none; } .ds-nav-logo span { opacity: 0.45; } .ds-nav-menu { display: flex; flex-shrink: 0; gap: 2rem; list-style: none; margin: 0; padding: 0; font-size: 1rem; } @media (width < 53rem) { .ds-nav-home { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.04em; } .ds-nav-logo { display: inline; } .ds-nav-site { display: none; } .ds-nav { column-gap: 1rem; padding-right: 3rem; } .ds-nav-menu { gap: 0.75rem; } .ds-nav-menu a { display: inline-block; padding: 0.625rem 0; margin: -0.625rem 0; } }"
     },
     {
       "name": "Theme Toggle",
@@ -197,6 +201,14 @@
       "description": "홈 인사말 아래 GitHub·sonic8-8.com 링크. 22px 아이콘은 글자색을 따른다.",
       "html": "<a href=\"#\" class=\"ds-icon-link\"><svg aria-hidden=\"true\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7\"/><path d=\"M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7\"/></svg><span>sonic8-8.com</span></a>",
       "css": ".ds-icon-link { display: flex; align-items: center; gap: 0.75rem; color: var(--color-foreground, #09090b); text-decoration: none; transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-icon-link svg { width: 22px; height: 22px; } .ds-icon-link:hover { opacity: 0.7; } .ds-icon-link:focus-visible { outline: 2px solid var(--color-foreground, #09090b); outline-offset: 2px; }"
+    },
+    {
+      "name": "Tab Icon",
+      "kind": "custom",
+      "refersTo": "tab-icon",
+      "description": "브라우저 탭 아이콘(app/favicon.ico, 16·32·48px PNG). 32×32 기준 7px 둥근 사각형을 #e4e4e7로 칠하고 Logo와 같은 \"sh.\"(Pretendard 700, 19px, 자간 -0.8px)를 #09090b로, 점은 같은 색 45%로 그린다. 그림 파일이라 방문자 기기의 서체와 관계없이 같고, 브라우저 모드와 관계없이 이 색 하나다. 탭 제목은 첫 화면 \"개발자 이승환\", 다른 페이지 \"개발자 이승환 | <페이지>\". 아래 html은 모양을 보이는 예시이고 글자를 서체로 그린다.",
+      "html": "<svg class=\"ds-tab-icon\" viewBox=\"0 0 32 32\" aria-hidden=\"true\"><rect width=\"32\" height=\"32\" rx=\"7\" fill=\"#e4e4e7\"/><text x=\"16\" y=\"22.5\" text-anchor=\"middle\" font-size=\"19\" letter-spacing=\"-0.8\" font-family=\"Pretendard Variable, Pretendard, sans-serif\" font-weight=\"700\" fill=\"#09090b\">sh<tspan fill-opacity=\".45\">.</tspan></text></svg>",
+      "css": ".ds-tab-icon { width: 64px; height: 64px; }"
     }
   ],
   "narrative": {
