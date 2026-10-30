@@ -6,7 +6,8 @@
       ".scratch/wsl-network/explain.html",
       ".scratch/screen-testing/explain.html",
       ".scratch/status/explain.html",
-      ".scratch/empty-state/explain.html"
+      ".scratch/empty-state/explain.html",
+      ".scratch/mobile-compare/explain.html"
     ],
     "ignoreValues": []
   }
