@@ -45,7 +45,7 @@ Single-context: `GLOSSARY.md` + `docs/adr/` at the repo root. See `docs/agents/d
 
 - 타입과 린트: `npm run typecheck`, `npm run lint`
 - 이 WSL에서는 IPv6 연결이 멈추므로 `curl`에는 `-4`를 붙인다.
-- 빌드와 HTTP 테스트는 Docker로 한다. 이 개발 환경(WSL `networkingMode=virtioproxy`)에서는 Turbopack의 MDX 로더가 loopback 연결에 실패해 로컬 `next dev`, `next build`가 돌지 않는다.
+- 빌드와 HTTP 테스트는 운영과 같은 이미지로 하도록 Docker로 한다. 로컬 `next dev`, `next build`는 WSL `networkingMode=nat`에서 돈다. `virtioproxy`로 두면 Turbopack의 MDX 로더가 loopback 연결에 실패해 돌지 않는다.
   1. `docker build -t seung-hwan .`
   2. `docker run -d --rm --name sh-test -p 127.0.0.1:3020:3000 seung-hwan`
   3. `BASE_URL=http://127.0.0.1:3020 npm test`
