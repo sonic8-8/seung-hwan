@@ -162,7 +162,7 @@
       "name": "Theme Toggle",
       "kind": "button",
       "refersTo": "theme-toggle",
-      "description": "오른쪽 위 반전색 원형 버튼. 라이트 화면은 초승달과 이름 \"다크 모드로 바꾸기\", 다크 화면은 해와 \"라이트 모드로 바꾸기\"(둘 다 HTML에 두고 dark 변형으로 하나만 보임). 848px 미만 지름 36px로 화면에 고정(위 8px, 오른쪽 16px, 머리글 첫 줄 오른쪽 끝), 848~1023px 40px(위 14px, 오른쪽 16px), 1024px 이상 44px(위 12px, 오른쪽 26px). 848px 이상의 세로 중심은 네비게이션 줄 중심 34px. 라이트·다크 모드를 바꾼다.",
+      "description": "오른쪽 위 반전색 원형 버튼. 라이트 화면은 초승달과 이름 \"다크 모드로 바꾸기\", 다크 화면은 해와 \"라이트 모드로 바꾸기\"(둘 다 HTML에 두고 dark 변형으로 하나만 보임). 848px 미만 지름 36px로 화면에 고정(위 8px, 오른쪽 16px, 머리글 첫 줄 오른쪽 끝), 848~1023px 40px(위 14px, 오른쪽 16px), 1024px 이상 44px(위 12px, 오른쪽 26px). 848px 이상의 세로 중심은 네비게이션 줄 중심 34px. 라이트·다크 모드를 바꾼다. 아래 html·css 예시는 라이트 화면, 1024px 이상(44px)의 한 상태만 보인다.",
       "html": "<button type=\"button\" class=\"ds-theme-toggle\"><svg aria-hidden=\"true\" viewBox=\"3 3 18 18\"><path d=\"M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z\"/></svg><span class=\"sr-only\">다크 모드로 바꾸기</span></button>",
       "css": ".ds-theme-toggle { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 9999px; cursor: pointer; background: var(--color-foreground, #09090b); color: var(--color-background, #e4e4e7); } .ds-theme-toggle svg { width: 42%; height: 42%; fill: currentColor; } .ds-theme-toggle:focus-visible { outline: 2px solid var(--color-foreground, #09090b); outline-offset: 2px; }"
     },
