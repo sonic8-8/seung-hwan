@@ -9,10 +9,11 @@ export default function Home() {
   return (
     <main className="px-4 pt-14 pb-24">
       <div className="mx-auto max-w-content">
-        <section className="flex flex-col-reverse gap-8 md:flex-row md:items-end md:gap-6">
+        {/* 좁은 화면은 사진을 인사말 오른쪽 위에 두고, 링크 줄은 그 아래 전체 폭을 쓴다. */}
+        <section className="grid grid-cols-[1fr_auto] items-start gap-x-3 md:flex md:items-end md:gap-6">
           {/* 시안에서 링크 줄 아래 끝이 사진 아래 끝보다 16px 위에 있다. */}
-          <div className="md:flex-1 md:pb-4">
-            <h1 className="text-greeting-narrow font-light md:text-greeting">
+          <div className="contents md:block md:flex-1 md:pb-4">
+            <h1 className="text-greeting-narrow font-normal md:text-greeting">
               <span className="block">안녕하세요.</span>
               <TypingLine lines={["Java와 Spring을 좋아하는", "OOP와 TDD에 관심이 많은", "AI 에이전트에 관심이 많은", "LLM Eval에 관심이 많은"]} />
               <span className="block">
@@ -20,7 +21,7 @@ export default function Home() {
               </span>
             </h1>
             {/* 아이콘은 SVG 파일을 mask로 씌워 그린다. 색은 bg-current라 글자색(다크 모드 포함)을 따른다. */}
-            <ul className="mt-5 flex list-none flex-wrap gap-x-10 gap-y-2">
+            <ul className="col-span-2 mt-5 flex list-none flex-wrap gap-x-10 gap-y-2">
               <li>
                 <a href="https://github.com/sonic8-8" className="flex items-center gap-3 transition-opacity hover:opacity-70 motion-reduce:transition-none">
                   <span aria-hidden="true" className="size-5.5 bg-current mask-[url(/icons/github.svg)] mask-contain mask-no-repeat" />
@@ -35,7 +36,8 @@ export default function Home() {
               </li>
             </ul>
           </div>
-          {/* public/photo.png는 보정한 원본(1839px)을 2배 해상도인 530px로 줄이고 메타데이터를 지운 것이다. */}
+          {/* public/photo.png는 보정한 원본(1839px)에서 GitHub 프로필 사진과 같은 범위(왼쪽 위 510, 535에서 1150px 정사각형)를 잘라
+              2배 해상도인 528px로 줄이고 메타데이터를 지운 것이다. */}
           <Image
             src="/photo.png"
             alt="흰 벽돌 벽 앞에 앉아 있는 이승환"
@@ -44,7 +46,7 @@ export default function Home() {
             unoptimized
             loading="eager"
             fetchPriority="high"
-            className="block size-66 shrink-0"
+            className="col-start-2 row-start-1 block size-photo-narrow shrink-0 rounded-full md:size-66"
           />
         </section>
 
