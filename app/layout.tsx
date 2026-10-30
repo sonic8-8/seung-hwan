@@ -32,7 +32,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <Link href="/" className="text-lg transition-opacity hover:opacity-70 motion-reduce:transition-none">
               seung-hwan.com
             </Link>
-            <ul className="flex list-none gap-8 text-sm">
+            <ul className="flex list-none gap-8 text-base">
               <li>
                 <Link href="/about" className="transition-opacity hover:opacity-70 motion-reduce:transition-none">소개</Link>
               </li>

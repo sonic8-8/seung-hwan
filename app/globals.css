@@ -7,12 +7,15 @@
   --font-sans: "Pretendard Variable", Pretendard, system-ui, sans-serif;
   /* 시안의 본문 폭 720px. max-w-content로 쓴다. */
   --container-content: 45rem;
-  /* 홈 인사말. 39px: 가장 긴 가운데 줄 "OOP와 TDD에 관심이 많은"(10.77em)과 커서(0.2em 띄움, 2px)가 사진 옆 432px에 한 줄로 들어가는 크기(430px).
-     줄 간격 1.42는 시안의 줄 간격 55.5px. 좁은 화면 26px는 같은 줄이 320px 화면(본문 288px)에 들어가는 크기. */
-  --text-greeting: 2.4375rem;
+  /* 홈 인사말(굵기 400). 38.88px: 가장 긴 가운데 줄 "OOP와 TDD에 관심이 많은"(10.84em)과 커서(0.2em 띄움, 2px)가 사진 옆 432px에 한 줄로 들어가는 크기(431px).
+     줄 간격 1.42는 시안의 줄 간격 55.5px. */
+  --text-greeting: 2.43rem;
   --text-greeting--line-height: 1.42;
-  --text-greeting-narrow: 1.625rem;
+  /* 좁은 화면은 21px, 사진 지름은 그 16/3배인 112px. 390px보다 좁으면 같은 줄과 커서(11.04em + 2px), 간격 12px, 사진(5.33em)이
+     본문 폭(100vw − 32px)에 들어가도록 둘 다 함께 줄인다: 16.38em + 14px ≤ 100vw − 32px. 320px에서 16.7px, 사진 89px. */
+  --text-greeting-narrow: min(1.3125rem, calc((100vw - 2.875rem) / 16.38));
   --text-greeting-narrow--line-height: 1.42;
+  --spacing-photo-narrow: calc(var(--text-greeting-narrow) * 16 / 3);
   /* 홈 "최근 글" 같은 구역 제목. 시안의 "최근 글" 폭 61px(2.84em)에서 잰 22px. */
   --text-section: 1.375rem;
   --text-section--line-height: 1.4;
