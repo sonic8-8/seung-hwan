@@ -1,11 +1,13 @@
 ---
 name: seung-hwan.com
-description: 이승환(sonic8-8)의 개인 홈페이지. 흰 바탕(다크 모드는 검정 바탕)에 글자색 하나와 실제 사진 한 장으로 된 프로필형 사이트.
+description: 이승환(sonic8-8)의 개인 홈페이지. 옅은 회색 바탕(다크 모드는 차콜 바탕)에 글자색 하나와 실제 사진 한 장으로 된 프로필형 사이트.
 colors:
-  background: "#ffffff"
-  foreground: "#171717"
-  background-dark: "#0a0a0a"
-  foreground-dark: "#ededed"
+  background: "#e4e4e7"
+  foreground: "#09090b"
+  background-dark: "#27272a"
+  foreground-dark: "#e4e4e7"
+  background-print: "#ffffff"
+  foreground-print: "#171717"
 typography:
   greeting:
     fontFamily: "Pretendard Variable, Pretendard, system-ui, sans-serif"
@@ -79,7 +81,7 @@ components:
 
 **Creative North Star: "한 장의 명함"**
 
-사이트는 흰 종이 한 장 위에 이름, 인사말, 실제 사진 한 장만 올려 둔 명함처럼 보인다. 색은 바탕색과 글자색 두 개뿐이고, 화면에서 색을 띠는 것은 사진(흰 벽돌 벽과 저녁빛)뿐이다. 보조 글자와 선은 따로 회색을 두지 않고 글자색의 농도를 낮춰 만든다. 그래서 다크 모드는 두 변수만 바꾸면 화면 전체가 따라온다.
+사이트는 옅은 회색 종이 한 장 위에 이름, 인사말, 실제 사진 한 장만 올려 둔 명함처럼 보인다. 색은 바탕색과 글자색 두 개뿐이고, 화면에서 색을 띠는 것은 사진(흰 벽돌 벽과 저녁빛)뿐이다. 보조 글자와 선은 따로 회색을 두지 않고 글자색의 농도를 낮춰 만든다. 그래서 다크 모드는 두 변수만 바꾸면 화면 전체가 따라온다.
 
 밀도는 낮다. 본문은 720px(45rem) 가운데 한 단이고, 구역 사이를 넓게 띄운다. 그림자, 그라데이션, 강조색이 없다. 깊이는 옅은 테두리 한 줄과 둥근 모서리로만 나눈다. 움직임은 링크의 농도 변화와 인사말 가운데 줄의 타자 효과뿐이고, 동작 줄이기 설정에서는 둘 다 멈춘다.
 
@@ -92,13 +94,16 @@ components:
 
 ## Colors
 
-바탕과 글자, 두 색의 흑백 체계다. 라이트 값은 `@theme`에, 다크 값은 `@layer base`에서 같은 변수(`--color-background`, `--color-foreground`)를 덮어써 정의한다.
+바탕과 글자, 두 색의 흑백 체계다. 화면 색은 Tailwind zinc 단계(라이트 200·950, 다크 800·200)로, 순수한 흰색과 검정을 피하고 아주 약한 차가운 기운만 둔다. 인쇄 값은 `@theme`에, 화면의 라이트·다크 값은 `@layer base`의 `@media screen` 안에서 같은 변수(`--color-background`, `--color-foreground`)를 덮어써 정의한다.
 
 ### Neutral
-- **종이 흰색** (background): 라이트 모드 바탕. 인쇄(포트폴리오 PDF)는 모드와 관계없이 이 색이다.
-- **먹색** (foreground): 라이트 모드 글자, 테마 버튼 바탕, 초점 윤곽선, 선택 영역 바탕.
-- **밤 검정** (background-dark): 다크 모드 바탕.
-- **달빛 회백** (foreground-dark): 다크 모드 글자.
+- **옅은 아연 회색** (background): 화면 라이트 모드 바탕.
+- **먹색** (foreground): 화면 라이트 모드 글자, 테마 버튼 바탕, 초점 윤곽선, 선택 영역 바탕.
+- **차콜** (background-dark): 다크 모드 바탕.
+- **회백** (foreground-dark): 다크 모드 글자.
+- **인쇄 흰색·먹색** (background-print, foreground-print): 포트폴리오 PDF는 모드와 관계없이 흰 바탕에 이 글자색이다.
+
+60% 보조 글자의 대비는 라이트 4.9:1, 다크 5.2:1이다. 바탕이나 글자색을 바꾸면 이 값이 4.5:1 아래로 내려가지 않는지 먼저 계산한다.
 
 ### Named Rules
 **The 두 변수 Rule.** 새 색 토큰을 만들지 않는다. 보조 글자는 글자색에 `opacity: 0.6`, 테두리와 구분선은 `currentColor` 10%(`border-current/10`), 타자 커서는 `currentColor` 50%로 만든다. 그래야 다크 모드에서 따로 손대지 않아도 맞는다.
@@ -198,4 +203,4 @@ components:
 - **Don't** 강조색이나 회색 hex를 새로 더하지 않는다. 화면의 색은 사진에서만 온다.
 - **Don't** 그림자나 그라데이션으로 깊이를 만들지 않는다.
 - **Don't** Pretendard Variable 말고 다른 서체를 더하지 않는다.
-- **Don't** 다크 색을 `@media screen` 밖에 두지 않는다. 인쇄는 라이트 색이어야 한다.
+- **Don't** 다크 색을 `@media screen` 밖에 두지 않는다. 인쇄는 흰 바탕의 인쇄 색이어야 한다.
