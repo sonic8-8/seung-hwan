@@ -1,3 +1,12 @@
 {
-  "buildPath": "comp"
+  "buildPath": "comp",
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [
+      ".scratch/wsl-network/explain.html",
+      ".scratch/screen-testing/explain.html",
+      ".scratch/status/explain.html"
+    ],
+    "ignoreValues": []
+  }
 }
