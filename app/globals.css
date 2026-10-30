@@ -19,26 +19,33 @@
   /* 홈 "최근 글" 같은 구역 제목. 시안의 "최근 글" 폭 61px(2.84em)에서 잰 22px. */
   --text-section: 1.375rem;
   --text-section--line-height: 1.4;
-  /* 라이트 모드 색. bg-background, text-foreground로 쓰고, 다크 모드 색은 아래 base에서 같은 변수를 덮어쓴다. */
+  /* 인쇄 색(흰 바탕). bg-background, text-foreground로 쓰고, 화면의 라이트·다크 색은 아래 base에서 같은 변수를 덮어쓴다. */
   --color-background: #ffffff;
   --color-foreground: #171717;
 }
 
 @layer base {
   /* 다크 모드. 버튼으로 고른 모드(<html data-theme>)가 먼저이고, 고른 적이 없으면 기기 설정을 따른다.
-     화면에만 걸어, 인쇄(포트폴리오 PDF)는 모드와 관계없이 @theme의 라이트 색으로 나온다. */
+     화면에만 걸어, 인쇄(포트폴리오 PDF)는 모드와 관계없이 @theme의 인쇄 색(흰 바탕)으로 나온다. */
   @media screen {
+    /* 화면의 색은 Tailwind zinc 200(바탕)과 950(글자), 다크는 800과 200. 인쇄는 @theme의 흰 바탕 그대로다.
+       60% 보조 글자가 라이트 4.9:1, 다크 5.2:1로 4.5:1을 넘는다. */
+    :root {
+      --color-background: #e4e4e7;
+      --color-foreground: #09090b;
+    }
+
     :root[data-theme="dark"] {
-      --color-background: #0a0a0a;
-      --color-foreground: #ededed;
+      --color-background: #27272a;
+      --color-foreground: #e4e4e7;
       color-scheme: dark;
     }
   }
 
   @media screen and (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --color-background: #0a0a0a;
-      --color-foreground: #ededed;
+      --color-background: #27272a;
+      --color-foreground: #e4e4e7;
       color-scheme: dark;
     }
   }
