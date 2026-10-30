@@ -53,7 +53,7 @@ export default function Home() {
         <section className="mt-22">
           <h2 className="text-section font-medium">최근 글</h2>
           {recentPosts.length === 0 ? (
-            <p className="mt-3 rounded-lg border border-current/10 px-6 py-5">
+            <p className="mt-3 rounded-lg border border-current/10 px-6 py-8 text-center">
               <span className="opacity-60">아직 글이 없습니다.</span>
             </p>
           ) : (
