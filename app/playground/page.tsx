@@ -6,8 +6,8 @@ export const metadata: Metadata = {
 
 export default function Playground() {
   return (
-    <main className="mx-auto w-full max-w-160 px-4 py-24 leading-[1.6]">
-      <p>준비 중입니다.</p>
+    <main className="px-4 pt-14 pb-24 leading-[1.6]">
+      <p className="mx-auto max-w-content">준비 중입니다.</p>
     </main>
   );
 }
