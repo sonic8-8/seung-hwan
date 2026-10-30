@@ -13,7 +13,7 @@ export default function Blog() {
       <div className="mx-auto flex max-w-content flex-col gap-3">
         <h1 className="text-section font-medium">블로그</h1>
         {posts.length === 0 && (
-          <p className="rounded-lg border border-current/10 px-6 py-5">
+          <p className="rounded-lg border border-current/10 px-6 py-8 text-center">
             <span className="opacity-60">아직 글이 없습니다.</span>
           </p>
         )}
