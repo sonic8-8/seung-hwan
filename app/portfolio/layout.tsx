@@ -25,7 +25,8 @@ const title =
 // 테두리까지 옅어지지 않도록 글자만 글자색 60%로 칠하고, 제목과의 간격은 첫 화면처럼 12px로 줄인다.
 const placeholder =
   "[&>h1+p:last-child]:-mt-1 [&>h1+p:last-child]:rounded-lg [&>h1+p:last-child]:border [&>h1+p:last-child]:border-foreground/10 " +
-  "[&>h1+p:last-child]:px-6 [&>h1+p:last-child]:py-5 [&>h1+p:last-child]:leading-[normal] [&>h1+p:last-child]:text-foreground/60";
+  "[&>h1+p:last-child]:px-6 [&>h1+p:last-child]:py-8 [&>h1+p:last-child]:text-center [&>h1+p:last-child]:leading-[normal] " +
+  "[&>h1+p:last-child]:text-foreground/60";
 
 export default function PortfolioLayout({ children }: LayoutProps<"/portfolio">) {
   return (
