@@ -3,6 +3,18 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
+/* dark: 변형은 다크 화면에 건다. 아래 base의 다크 색과 같은 순서로, 버튼으로 고른 모드가 먼저이고 고른 적이 없으면 기기 설정을 따른다. */
+@custom-variant dark {
+  &:where([data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+}
+
 @theme {
   --font-sans: "Pretendard Variable", Pretendard, system-ui, sans-serif;
   /* 시안의 본문 폭 720px. max-w-content로 쓴다. */
@@ -54,10 +66,11 @@
     height: 100%;
   }
 
+  /* hidden은 body를 스크롤 상자로 만들어 좁은 화면의 sticky 머리글이 화면에 붙지 않으므로, 스크롤 상자를 만들지 않는 clip으로 자른다. */
   html,
   body {
     max-width: 100vw;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   body {

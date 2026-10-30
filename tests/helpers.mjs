@@ -32,10 +32,16 @@ export function header(html) {
   return match[0];
 }
 
+// 화면 읽기 프로그램이 읽는 링크 이름: aria-label이 있으면 그것, 없으면 태그를 지운 글자.
+function linkName(a) {
+  const label = a.match(/^<a\b[^>]*\baria-label="([^"]*)"/);
+  return label ? label[1] : a.replace(/<[^>]*>/g, "").trim();
+}
+
 export function assertLink(html, href, text) {
   const links = [...html.matchAll(/<a\b[^>]*>[\s\S]*?<\/a>/g)].map((m) => m[0]);
   assert.ok(
-    links.some((a) => a.includes(`href="${href}"`) && a.includes(`>${text}<`)),
+    links.some((a) => a.includes(`href="${href}"`) && linkName(a) === text),
     `"${text}"(${href}) 링크가 없다`,
   );
 }
