@@ -5,7 +5,8 @@
     "ignoreFiles": [
       ".scratch/wsl-network/explain.html",
       ".scratch/screen-testing/explain.html",
-      ".scratch/status/explain.html"
+      ".scratch/status/explain.html",
+      ".scratch/empty-state/explain.html"
     ],
     "ignoreValues": []
   }
