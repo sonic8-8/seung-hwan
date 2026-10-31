@@ -32,7 +32,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             848px보다 좁으면 큰 로고와 바닥선을 맞춘 첫 줄이 29px로 1px 높으므로, 위 21px·선 위 10px로 메뉴 글자 자리와 아래 선(61px)을 848px 이상과 같게 둔다. */}
         <header className="z-10 bg-background px-4 pt-5 font-medium max-[53rem]:sticky max-[53rem]:top-0 max-[53rem]:pt-5.25 print:hidden">
           {/* 다크 모드 버튼은 메뉴 줄의 마지막 칸이다. 848px 이상은 메뉴 다음 칸이고, 메뉴는 오른쪽으로 민다.
-              848px보다 좁으면 버튼(36px)을 첫 줄 오른쪽 끝에 띄워 두므로 버튼 폭과 간격 12px만큼 비워 둔다.
+              848px보다 좁으면 버튼을 첫 줄 오른쪽 끝에 띄워 두므로 48px를 비워 둔다(44px 누르는 상자가 오른쪽으로 3px 나가 "놀이터"와 7px).
               375px까지 한 줄이고, 더 좁으면 메뉴만 아래 줄로 내려가고 버튼은 로고와 같은 첫 줄에 남는다. */}
           <nav className="mx-auto flex max-w-content flex-wrap items-baseline justify-between gap-x-8 gap-y-3 border-b border-current/10 pb-3 max-[53rem]:relative max-[53rem]:gap-x-4 max-[53rem]:pr-12 max-[53rem]:pb-2.5">
             {/* 848px보다 좁으면 글자 로고 "sh.", 넓으면 사이트 이름 "seung-hwan.com". 숨긴 쪽은 display:none이라 화면 읽기 프로그램도 보이는 글자만 읽는다. */}
