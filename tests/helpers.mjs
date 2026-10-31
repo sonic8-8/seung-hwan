@@ -32,17 +32,35 @@ export function header(html) {
   return match[0];
 }
 
+// 화면 읽기 프로그램이 읽는 링크 이름: aria-label이 있으면 그것, 없으면 태그를 지운 글자.
+function linkName(a) {
+  const label = a.match(/^<a\b[^>]*\baria-label="([^"]*)"/);
+  return label ? label[1] : a.replace(/<[^>]*>/g, "").trim();
+}
+
 export function assertLink(html, href, text) {
   const links = [...html.matchAll(/<a\b[^>]*>[\s\S]*?<\/a>/g)].map((m) => m[0]);
   assert.ok(
-    links.some((a) => a.includes(`href="${href}"`) && a.includes(`>${text}<`)),
+    links.some((a) => a.includes(`href="${href}"`) && linkName(a) === text),
     `"${text}"(${href}) 링크가 없다`,
   );
 }
 
+// 홈 링크는 좁은 화면의 "sh."와 넓은 화면의 "seung-hwan.com"을 따로 담고, 폭에 맞는 하나만 보인다.
+// 이름을 덮어쓰는 aria-label이 없어야 화면 읽기 프로그램도 보이는 글자를 읽는다.
+function assertHomeLink(nav) {
+  const a = nav.match(/<a\b[^>]*\bhref="\/"[^>]*>([\s\S]*?)<\/a>/);
+  assert.ok(a, "홈 링크가 없다");
+  assert.ok(!/^<a\b[^>]*\baria-label=/.test(a[0]), "홈 링크에 aria-label이 있다");
+  const parts = [...a[1].matchAll(/<span\b[^>]*>((?:[^<]|<span\b[^>]*>[^<]*<\/span>)*)<\/span>/g)].map((m) =>
+    m[1].replace(/<[^>]*>/g, ""),
+  );
+  assert.deepEqual(parts, ["sh.", "seung-hwan.com"], "홈 링크 글자가 'sh.'와 'seung-hwan.com' 둘로 나뉘어 있지 않다");
+}
+
 export function assertHeaderLinks(html) {
   const nav = header(html);
-  assertLink(nav, "/", "seung-hwan.com");
+  assertHomeLink(nav);
   assertLink(nav, "/about", "소개");
   assertLink(nav, "/blog", "블로그");
   assertLink(nav, "/portfolio", "포트폴리오");

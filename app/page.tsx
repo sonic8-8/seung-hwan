@@ -20,16 +20,17 @@ export default function Home() {
                 개발자 <strong className="font-bold">이승환</strong>입니다.
               </span>
             </h1>
-            {/* 아이콘은 SVG 파일을 mask로 씌워 그린다. 색은 bg-current라 글자색(다크 모드 포함)을 따른다. */}
+            {/* 아이콘은 SVG 파일을 mask로 씌워 그린다. 색은 bg-current라 글자색(다크 모드 포함)을 따른다.
+                두 링크는 머리글 메뉴와 같은 농도 반응(press-fade)과 초점 모양(focus-round, globals.css)을 쓴다. */}
             <ul className="col-span-2 mt-5 flex list-none flex-wrap gap-x-10 gap-y-2">
               <li>
-                <a href="https://github.com/sonic8-8" className="flex items-center gap-3 transition-opacity hover:opacity-70 motion-reduce:transition-none">
+                <a href="https://github.com/sonic8-8" className="press-fade focus-round flex items-center gap-3">
                   <span aria-hidden="true" className="size-5.5 bg-current mask-[url(/icons/github.svg)] mask-contain mask-no-repeat" />
                   <span>GitHub</span>
                 </a>
               </li>
               <li>
-                <a href="https://sonic8-8.com" className="flex items-center gap-3 transition-opacity hover:opacity-70 motion-reduce:transition-none">
+                <a href="https://sonic8-8.com" className="press-fade focus-round flex items-center gap-3">
                   <span aria-hidden="true" className="size-5.5 bg-current mask-[url(/icons/link.svg)] mask-contain mask-no-repeat" />
                   <span>sonic8-8.com</span>
                 </a>

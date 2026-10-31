@@ -6,7 +6,21 @@
       ".scratch/wsl-network/explain.html",
       ".scratch/screen-testing/explain.html",
       ".scratch/status/explain.html",
-      ".scratch/empty-state/explain.html"
+      ".scratch/empty-state/explain.html",
+      ".scratch/mobile-compare/explain.html",
+      ".scratch/mobile-header-decisions/explain.html",
+      ".scratch/mobile-header-decisions/tab.html",
+      ".scratch/mobile-header-decisions/r3.html",
+      ".scratch/mobile-header-decisions/toggle.html",
+      ".scratch/mobile-header-decisions/crit.html",
+      ".scratch/mobile-header-decisions/menu-y.html",
+      ".scratch/mobile-header-decisions/icon-size.html",
+      ".scratch/mobile-header-decisions/hover.html",
+      ".scratch/mobile-header-decisions/hover-motion.html",
+      ".scratch/mobile-header-decisions/nav-motion.html",
+      ".scratch/mobile-header-decisions/nav-motion-2.html",
+      ".scratch/mobile-header-decisions/focus.html",
+      ".scratch/mobile-header-decisions/focus-crit.html"
     ],
     "ignoreValues": []
   }

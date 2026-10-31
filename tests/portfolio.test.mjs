@@ -7,7 +7,7 @@ test("포트폴리오 페이지에 머리글 링크, 제목(h1), 탭 제목이 �
   assert.equal(status, 200);
   assertHeaderLinks(body);
   assert.match(body, /<h1\b[^>]*>[^<]+<\/h1>/, "제목(h1)이 없다");
-  assert.match(body, /<title>포트폴리오 \| 이승환<\/title>/);
+  assert.match(body, /<title>개발자 이승환 \| 포트폴리오<\/title>/);
 });
 
 test("포트폴리오 본문 위에 PDF 다운로드 링크가 있다", async () => {

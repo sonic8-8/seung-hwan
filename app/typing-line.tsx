@@ -14,9 +14,8 @@ export default function TypingLine({ lines }: { lines: string[] }) {
   const [length, setLength] = useState(lines[0].length);
   const [deleting, setDeleting] = useState(false);
 
+  // 동작 줄이기 설정에서도 타자를 친다.
   useEffect(() => {
-    // shortcut: 페이지를 연 뒤 동작 줄이기 설정을 바꾸면 새로 고쳐야 반영된다.
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const full = length === lines[index].length;
     const id = setTimeout(
       () => {
@@ -37,7 +36,7 @@ export default function TypingLine({ lines }: { lines: string[] }) {
       <span aria-hidden="true">
         {lines[index].slice(0, length)}
         {/* 시안의 커서: 글자 끝에서 약 8px(0.2em), 높이 약 44px(1.1em), 글자색의 절반 농도. */}
-        <span className="ml-[0.2em] inline-block h-[1.1em] w-0.5 bg-current/50 align-[-0.15em] motion-reduce:hidden" />
+        <span className="ml-[0.2em] inline-block h-[1.1em] w-0.5 bg-current/50 align-[-0.15em]" />
       </span>
       <span className="sr-only">{lines.join(", ")}</span>
     </span>
