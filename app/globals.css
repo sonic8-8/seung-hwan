@@ -36,6 +36,41 @@
   --color-foreground: #171717;
 }
 
+/* 머리글 메뉴(app/nav-link.tsx), 다크 모드 버튼(app/theme-toggle.tsx), 첫 화면 바로가기(app/page.tsx)의 농도 반응.
+   평소 100%, 마우스를 올리면(마우스 기기만) 70%, 누르면(터치 포함) 60%. 지금 페이지 메뉴(aria-current="page")는 반응하지 않는다.
+   150ms, 누름은 60ms이고, 동작 줄이기 설정에서는 전환 없이 바로 바뀐다. */
+@utility press-fade {
+  transition-property: opacity;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.35, 0, 0.35, 1);
+  &:not([aria-current="page"]) {
+    @media (hover: hover) {
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+    &:active {
+      opacity: 0.6;
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    &:active {
+      transition-duration: 60ms;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition-duration: 0s;
+  }
+}
+
+/* 머리글 홈·메뉴 링크와 첫 화면 바로가기의 초점 모양. 아래 base의 2px 글자색 테두리를 4px 띄워 6px 둥글게 그린다. */
+@utility focus-round {
+  border-radius: 0.375rem;
+  &:focus-visible {
+    outline-offset: 4px;
+  }
+}
+
 @layer base {
   /* 다크 모드. 버튼으로 고른 모드(<html data-theme>)가 먼저이고, 고른 적이 없으면 기기 설정을 따른다.
      화면에만 걸어, 인쇄(포트폴리오 PDF)는 모드와 관계없이 @theme의 인쇄 색(흰 바탕)으로 나온다. */

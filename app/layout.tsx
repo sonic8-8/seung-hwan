@@ -36,7 +36,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               375px까지 한 줄이고, 더 좁으면 메뉴만 아래 줄로 내려가고 버튼은 로고와 같은 첫 줄에 남는다. */}
           <nav className="mx-auto flex max-w-content flex-wrap items-baseline justify-between gap-x-8 gap-y-3 border-b border-current/10 pb-3 max-[53rem]:relative max-[53rem]:gap-x-4 max-[53rem]:pr-12 max-[53rem]:pb-2.5">
             {/* 848px보다 좁으면 글자 로고 "sh.", 넓으면 사이트 이름 "seung-hwan.com". 숨긴 쪽은 display:none이라 화면 읽기 프로그램도 보이는 글자만 읽는다. */}
-            <Link href="/" className="rounded-md text-lg transition-opacity focus-visible:outline-offset-4 hover:opacity-70 motion-reduce:transition-none max-[53rem]:text-2xl/7 max-[53rem]:font-bold max-[53rem]:tracking-[-0.04em]">
+            <Link href="/" className="focus-round text-lg transition-opacity hover:opacity-70 motion-reduce:transition-none max-[53rem]:text-2xl/7 max-[53rem]:font-bold max-[53rem]:tracking-[-0.04em]">
               <span className="min-[53rem]:hidden">
                 sh<span className="opacity-45">.</span>
               </span>

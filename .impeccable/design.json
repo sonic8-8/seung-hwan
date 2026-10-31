@@ -130,12 +130,12 @@
       {
         "name": "link-hover",
         "value": "opacity 150ms cubic-bezier(0.4, 0, 0.2, 1)",
-        "purpose": "링크(홈 링크 포함) hover에서 농도 70%로 옅어짐(마우스 기기만). 동작 줄이기 설정에서는 전환 없음."
+        "purpose": "그 밖의 링크(홈 링크, 글 제목 링크 등) hover에서 농도 70%로 옅어짐(마우스 기기만). 동작 줄이기 설정에서는 전환 없음."
       },
       {
         "name": "nav-hover-press",
         "value": "opacity 150ms cubic-bezier(0.35, 0, 0.35, 1) / press 60ms",
-        "purpose": "머리글 메뉴 링크와 테마 버튼: hover(마우스 기기만) 농도 70%, 누름(터치 포함) 60%. 지금 페이지 메뉴는 반응하지 않음. 동작 줄이기 설정에서는 전환 없음."
+        "purpose": "머리글 메뉴 링크, 테마 버튼, 첫 화면 바로가기(GitHub·sonic8-8.com): hover(마우스 기기만) 농도 70%, 누름(터치 포함) 60%. 지금 페이지 메뉴는 반응하지 않음. 동작 줄이기 설정에서는 전환 없음."
       },
       {
         "name": "typing",
@@ -199,9 +199,9 @@
       "name": "Icon Link",
       "kind": "custom",
       "refersTo": "icon-link",
-      "description": "홈 인사말 아래 GitHub·sonic8-8.com 링크. 22px 아이콘은 글자색을 따른다.",
+      "description": "홈 인사말 아래 GitHub·sonic8-8.com 링크. 22px 아이콘은 글자색을 따른다. 머리글 메뉴와 같은 규칙: hover(마우스 기기만) 농도 70%, 누름(터치 포함) 60%(opacity 150ms cubic-bezier(0.35, 0, 0.35, 1), 누름 60ms, 동작 줄이기에서는 바로). 키보드 초점은 2px 글자색 테두리를 4px 띄워 6px 둥근 모서리로 아이콘과 글자를 함께 감싼다(globals.css의 press-fade, focus-round).",
       "html": "<a href=\"#\" class=\"ds-icon-link\"><svg aria-hidden=\"true\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7\"/><path d=\"M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7\"/></svg><span>sonic8-8.com</span></a>",
-      "css": ".ds-icon-link { display: flex; align-items: center; gap: 0.75rem; color: var(--color-foreground, #09090b); text-decoration: none; transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-icon-link svg { width: 22px; height: 22px; } .ds-icon-link:hover { opacity: 0.7; } .ds-icon-link:focus-visible { outline: 2px solid var(--color-foreground, #09090b); outline-offset: 2px; }"
+      "css": ".ds-icon-link { display: flex; align-items: center; gap: 0.75rem; color: var(--color-foreground, #09090b); text-decoration: none; border-radius: 0.375rem; transition: opacity 150ms cubic-bezier(0.35, 0, 0.35, 1); } .ds-icon-link svg { width: 22px; height: 22px; } @media (hover: hover) { .ds-icon-link:hover { opacity: 0.7; } } .ds-icon-link:active { opacity: 0.6; transition-duration: 60ms; } .ds-icon-link:focus-visible { outline: 2px solid var(--color-foreground, #09090b); outline-offset: 4px; } @media (prefers-reduced-motion: reduce) { .ds-icon-link, .ds-icon-link:active { transition-duration: 0s; } }"
     },
     {
       "name": "Tab Icon",
@@ -214,7 +214,7 @@
   ],
   "narrative": {
     "northStar": "한 장의 명함",
-    "overview": "사이트는 옅은 회색 종이 한 장 위에 이름, 인사말, 실제 사진 한 장만 올려 둔 명함처럼 보인다. 색은 바탕색과 글자색 두 개뿐이고, 화면에서 색을 띠는 것은 사진(흰 벽돌 벽과 저녁빛)뿐이다. 보조 글자와 선은 따로 회색을 두지 않고 글자색의 농도를 낮춰 만든다. 그래서 다크 모드는 두 변수만 바꾸면 화면 전체가 따라온다.\n\n밀도는 낮다. 본문은 720px(45rem, 768px보다 좁으면 416px) 가운데 한 단이고, 구역 사이를 넓게 띄운다. 그림자, 그라데이션, 강조색이 없다. 깊이는 옅은 테두리 한 줄과 둥근 모서리로만 나눈다. 움직임은 링크와 테마 버튼의 농도 변화(마우스를 올리면 70%, 머리글 메뉴와 테마 버튼은 누르면 60%), 인사말 가운데 줄의 타자 효과뿐이다. 동작 줄이기 설정에서 농도는 전환 없이 바로 바뀌고, 타자 효과는 이 설정에서도 그대로 움직인다.",
+    "overview": "사이트는 옅은 회색 종이 한 장 위에 이름, 인사말, 실제 사진 한 장만 올려 둔 명함처럼 보인다. 색은 바탕색과 글자색 두 개뿐이고, 화면에서 색을 띠는 것은 사진(흰 벽돌 벽과 저녁빛)뿐이다. 보조 글자와 선은 따로 회색을 두지 않고 글자색의 농도를 낮춰 만든다. 그래서 다크 모드는 두 변수만 바꾸면 화면 전체가 따라온다.\n\n밀도는 낮다. 본문은 720px(45rem, 768px보다 좁으면 416px) 가운데 한 단이고, 구역 사이를 넓게 띄운다. 그림자, 그라데이션, 강조색이 없다. 깊이는 옅은 테두리 한 줄과 둥근 모서리로만 나눈다. 움직임은 링크와 테마 버튼의 농도 변화(마우스를 올리면 70%, 머리글 메뉴·테마 버튼·첫 화면 바로가기는 누르면 60%), 인사말 가운데 줄의 타자 효과뿐이다. 동작 줄이기 설정에서 농도는 전환 없이 바로 바뀌고, 타자 효과는 이 설정에서도 그대로 움직인다.",
     "keyCharacteristics": [
       "바탕색과 글자색 두 토큰, 다크 모드는 같은 변수를 덮어쓴다.",
       "보조 글자는 글자색 60%, 선과 테두리는 글자색 10%.",
@@ -252,7 +252,7 @@
     "dos": [
       "**Do** 색은 `--color-background`, `--color-foreground` 두 토큰만 쓰고, 보조 글자는 60%, 선은 10% 농도로 만든다.",
       "**Do** 네비게이션 바와 모든 페이지는 본문 폭 `max-w-content`(45rem, 768px보다 좁으면 26rem), 좌우 여백 1rem을 써서 왼쪽·오른쪽 끝을 맞춘다.",
-      "**Do** 링크와 테마 버튼 hover는 `opacity: 0.7`, 머리글 메뉴와 테마 버튼 누름은 `opacity: 0.6` 전환(지금 페이지 메뉴는 반응하지 않음), 초점은 2px 글자색 윤곽선(2px 띄움, 머리글의 홈·메뉴 링크는 4px 띄움에 6px 둥근 모서리, 848px 미만 테마 버튼은 상자 안쪽으로 2px)으로 통일하고, 동작 줄이기 설정에서는 전환을 끈다.",
+      "**Do** 링크와 테마 버튼 hover는 `opacity: 0.7`, 머리글 메뉴·테마 버튼·첫 화면 바로가기 누름은 `opacity: 0.6` 전환(지금 페이지 메뉴는 반응하지 않음), 초점은 2px 글자색 윤곽선(2px 띄움, 머리글의 홈·메뉴 링크와 첫 화면 바로가기는 4px 띄움에 6px 둥근 모서리, 848px 미만 테마 버튼은 상자 안쪽으로 2px)으로 통일하고, 동작 줄이기 설정에서는 전환을 끈다.",
       "**Do** 상자는 1px 글자색 10% 테두리와 0.5rem 둥근 모서리로 만든다.",
       "**Do** 인물 사진은 실제 사진을 원형으로, 테두리·그림자 없이 쓴다."
     ],
