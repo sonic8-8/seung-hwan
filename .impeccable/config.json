@@ -18,7 +18,9 @@
       ".scratch/mobile-header-decisions/hover.html",
       ".scratch/mobile-header-decisions/hover-motion.html",
       ".scratch/mobile-header-decisions/nav-motion.html",
-      ".scratch/mobile-header-decisions/nav-motion-2.html"
+      ".scratch/mobile-header-decisions/nav-motion-2.html",
+      ".scratch/mobile-header-decisions/focus.html",
+      ".scratch/mobile-header-decisions/focus-crit.html"
     ],
     "ignoreValues": []
   }
