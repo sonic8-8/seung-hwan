@@ -7,7 +7,9 @@
       ".scratch/screen-testing/explain.html",
       ".scratch/status/explain.html",
       ".scratch/empty-state/explain.html",
-      ".scratch/mobile-compare/explain.html"
+      ".scratch/mobile-compare/explain.html",
+      ".scratch/mobile-header-decisions/explain.html",
+      ".scratch/mobile-header-decisions/tab.html"
     ],
     "ignoreValues": []
   }
