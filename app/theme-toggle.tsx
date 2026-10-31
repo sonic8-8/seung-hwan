@@ -37,13 +37,13 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={toggle}
-      // 바탕·테두리 없이 20px 선 아이콘만 보이고, 버튼 상자는 누르는 영역이다. 아이콘은 글자색 70%, 마우스를 올리면 100%.
-      // 전환은 color만 건다. transition-colors는 outline-color도 전환해 초점 윤곽선이 70%에서 서서히 짙어진다.
-      // 848px보다 좁으면 44px 상자를 메뉴 줄 첫 줄(nav 위 기준 위 −8px, 세로 중심 머리글 위에서 35px) 오른쪽 끝에 놓는다.
+      // 바탕·테두리 없이 20px 선 아이콘만 보이고, 버튼 상자는 누르는 영역이다. 아이콘은 글자색 그대로이고,
+      // 메뉴 링크(app/nav-link.tsx)와 같이 마우스를 올리면(마우스 기기만) 농도 70%, 누르면(터치 포함) 60%로 흐려진다.
+      // 848px보다 좁으면 44px 상자를 nav 위 기준 위 −8px(세로 중심 머리글 위에서 35px), 오른쪽 끝에 놓는다.
       // 오른쪽 −3px라 아이콘 오른쪽 끝은 단 끝에서 9px 안이고, 상자는 단 끝 밖으로 3px 나가며 nav가 비워 둔 48px 안에서 "놀이터"와 7px 떨어진다.
       // 848px 이상은 메뉴 다음 칸이다. 40px 상자를 사방 10px씩 바깥으로 빼 줄에서는 20px 아이콘 상자만큼만 차지하므로,
       // 아이콘 상자가 메뉴 간격 32px 뒤에 오고 그 오른쪽 끝이 아래 선 끝에 맞으며 헤더 높이는 그대로다. 세로는 줄 가운데.
-      className="grid size-11 cursor-pointer place-items-center rounded-full text-foreground/70 transition-[color] hover:text-foreground motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground max-[53rem]:absolute max-[53rem]:-top-2 max-[53rem]:-right-0.75 min-[53rem]:-m-2.5 min-[53rem]:size-10 min-[53rem]:self-center"
+      className="grid size-11 cursor-pointer place-items-center rounded-full transition-opacity duration-150 ease-[cubic-bezier(.35,0,.35,1)] hover:opacity-70 active:opacity-60 motion-safe:active:duration-60 motion-reduce:duration-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground max-[53rem]:absolute max-[53rem]:-top-2 max-[53rem]:-right-0.75 min-[53rem]:-m-2.5 min-[53rem]:size-10 min-[53rem]:self-center"
     >
       {/* 툴팁(title)이 버튼 어디에 올려도 뜨도록 보이는 쪽 span이 버튼을 채운다. 이름은 sr-only 글자에서 오므로 title은 이름에 더해지지 않는다.
           24px 격자의 선 굵기 2를 20px로 줄여 그린다(화면에서 약 1.67px). */}
