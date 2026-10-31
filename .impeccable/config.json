@@ -9,7 +9,9 @@
       ".scratch/empty-state/explain.html",
       ".scratch/mobile-compare/explain.html",
       ".scratch/mobile-header-decisions/explain.html",
-      ".scratch/mobile-header-decisions/tab.html"
+      ".scratch/mobile-header-decisions/tab.html",
+      ".scratch/mobile-header-decisions/r3.html",
+      ".scratch/mobile-header-decisions/toggle.html"
     ],
     "ignoreValues": []
   }
