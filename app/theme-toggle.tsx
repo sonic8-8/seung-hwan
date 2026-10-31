@@ -33,7 +33,7 @@ export default function ThemeToggle() {
       onClick={toggle}
       // 바탕·테두리 없이 18px 선 아이콘만 보이고, 버튼 상자는 누르는 영역이다. 아이콘은 글자색 70%, 마우스를 올리면 100%.
       // 전환은 color만 건다. transition-colors는 outline-color도 전환해 초점 윤곽선이 70%에서 서서히 짙어진다.
-      // 848px보다 좁으면 36px 상자를 메뉴 줄 첫 줄(위 12px, 높이 28px) 오른쪽 끝, nav가 비워 둔 자리에 놓는다. 세로 중심은 26px.
+      // 848px보다 좁으면 36px 상자를 메뉴 줄 첫 줄(위 21px, 높이 28px) 오른쪽 끝, nav가 비워 둔 자리에 놓는다. 세로 중심은 35px.
       // 848px 이상은 메뉴 다음 칸이다. 40px 상자를 사방 11px씩 바깥으로 빼 줄에서는 18px 아이콘 상자만큼만 차지하므로,
       // 아이콘 상자가 메뉴 간격 32px 뒤에 오고 그 오른쪽 끝이 아래 선 끝에 맞으며 헤더 높이는 그대로다. 세로는 줄 가운데.
       className="grid size-9 cursor-pointer place-items-center rounded-full text-foreground/70 transition-[color] hover:text-foreground motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground max-[53rem]:absolute max-[53rem]:-top-1 max-[53rem]:right-0 min-[53rem]:-m-2.75 min-[53rem]:size-10 min-[53rem]:self-center"
