@@ -30,7 +30,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* 포트폴리오 PDF는 이 페이지를 인쇄해 만들므로 머리글을 찍지 않는다.
             848px보다 좁으면 화면 위에 붙고, 바탕색을 칠해 아래로 지나가는 본문을 가린다. */}
         <header className="z-10 bg-background px-4 pt-5 font-medium max-[53rem]:sticky max-[53rem]:top-0 max-[53rem]:pt-3 print:hidden">
-          {/* 848px보다 좁으면 다크 모드 버튼(오른쪽 16px, 36px)이 첫 줄 오른쪽 끝에 놓이므로 버튼 폭과 간격 12px만큼 비워 둔다.
+          {/* 848px보다 좁으면 다크 모드 버튼(36px)이 첫 줄 오른쪽 끝에 놓이므로 버튼 폭과 간격 12px만큼 비워 둔다.
+              768px보다 좁으면 단이 416px(globals.css의 --container-content)이고 버튼도 단의 오른쪽 끝을 따라온다.
               375px까지 한 줄이고, 더 좁으면 메뉴가 아래 줄로 내려간다. */}
           <nav className="mx-auto flex max-w-content flex-wrap items-baseline justify-between gap-x-8 gap-y-3 border-b border-current/10 pb-3 max-[53rem]:gap-x-4 max-[53rem]:pr-12">
             {/* 848px보다 좁으면 글자 로고 "sh.", 넓으면 사이트 이름 "seung-hwan.com". 숨긴 쪽은 display:none이라 화면 읽기 프로그램도 보이는 글자만 읽는다. */}
@@ -40,8 +41,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               </span>
               <span className="max-[53rem]:hidden">seung-hwan.com</span>
             </Link>
-            {/* 메뉴가 아래 줄로 내려갈 때 줄어 글자가 꺾이지 않게 shrink-0을 둔다. */}
-            <ul className="flex shrink-0 list-none gap-8 text-base max-[53rem]:gap-3">
+            {/* 메뉴가 아래 줄로 내려갈 때 줄어 글자가 꺾이지 않게 shrink-0을 둔다.
+                848px보다 좁으면 바닥선을 맞춘 메뉴 글자가 큰 로고보다 3px 아래에 보이므로, 자리(헤더 높이)는 두고 3px 올려 글자 모양의 위아래 가운데를 로고·버튼에 맞춘다. */}
+            <ul className="flex shrink-0 list-none gap-8 text-base max-[53rem]:relative max-[53rem]:-top-0.75 max-[53rem]:gap-3">
               <li>
                 <NavLink href="/about">소개</NavLink>
               </li>
