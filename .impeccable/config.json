@@ -13,7 +13,12 @@
       ".scratch/mobile-header-decisions/r3.html",
       ".scratch/mobile-header-decisions/toggle.html",
       ".scratch/mobile-header-decisions/crit.html",
-      ".scratch/mobile-header-decisions/menu-y.html"
+      ".scratch/mobile-header-decisions/menu-y.html",
+      ".scratch/mobile-header-decisions/icon-size.html",
+      ".scratch/mobile-header-decisions/hover.html",
+      ".scratch/mobile-header-decisions/hover-motion.html",
+      ".scratch/mobile-header-decisions/nav-motion.html",
+      ".scratch/mobile-header-decisions/nav-motion-2.html"
     ],
     "ignoreValues": []
   }
