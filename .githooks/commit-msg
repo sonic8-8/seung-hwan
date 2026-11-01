@@ -1,5 +1,5 @@
 #!/bin/sh
-# 커밋 메시지 첫 줄을 Angular 규칙 <타입>(<범위>)?!?: <설명> 으로 검사한다.
+# 커밋 메시지 첫 줄의 Angular 형식 <타입>(<범위>)?!?: <설명> 과 길이(72자 이하)를 검사한다.
 types='feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert'
 # 주석 줄을 건너뛰지 않는다: -m/-F 커밋에서는 '#' 줄도 그대로 첫 줄로 남는다.
 subject=$(head -n 1 "$1")
@@ -10,5 +10,12 @@ if ! printf '%s\n' "$subject" | grep -Eq '^[A-Za-z]+(\([^)]+\))?!?: .+'; then
 fi
 if ! printf '%s\n' "$subject" | grep -Eq "^($types)[(!:]"; then
   echo "commit-msg: 타입은 $types 중 하나여야 한다: '$subject'" >&2
+  exit 1
+fi
+# UTF-8 연속 바이트(0x80-0xBF)를 지우면 한 문자가 한 바이트로 남아 로케일과 상관없이 문자 수가 된다.
+length=$(printf '%s' "$subject" | LC_ALL=C tr -d '\200-\277' | wc -c)
+length=$((length))
+if [ "$length" -gt 72 ]; then
+  echo "commit-msg: 첫 줄은 72자 이하여야 한다(지금 ${length}자): '$subject'" >&2
   exit 1
 fi
