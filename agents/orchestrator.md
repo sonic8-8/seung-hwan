@@ -18,11 +18,10 @@ Claude 메인 세션이 맡는다. 배정, 전달, 커밋, 사용자와의 결�
 
 ## 동시 진행
 
-티켓마다 worktree를 따로 두고, `AGENTS.md` 검증 명령의 테스트 자원을 티켓 번호로 나눠 배정의 검증 명령에 적는다. 나누지 않으면 컨테이너 이름이 충돌하고, 다른 worktree의 `docker build`가 같은 태그를 덮어써 다른 티켓의 이미지를 판정하게 된다.
+티켓마다 worktree를 따로 두고, `AGENTS.md` 검증 명령의 자원을 티켓 번호로 나눠 배정의 검증 명령에 적는다. 나누지 않으면 개발 서버와 컨테이너가 포트와 이름을 두고 충돌하고, 다른 worktree의 `docker build`가 같은 태그를 덮어써 다른 티켓의 이미지를 판정하게 된다.
 
-- 이미지 태그: `seung-hwan-<번호>`
-- 컨테이너 이름: `sh-test-<번호>`
-- 포트: 작업자 3020, 3021, …, 검수자 3030, 3031, …
+- 작업자 개발 서버 포트: 3020, 3021, …
+- 검수자 마지막 검증: 이미지 태그 `seung-hwan-<번호>`, 컨테이너 이름 `sh-test-<번호>`, 포트 3030, 3031, …
 
 ## 역할 띄우기
 
@@ -38,9 +37,9 @@ pane을 작업자의 worktree로 `cd`한 뒤 띄운다. 쓸 수 있는 경로가
 herdr agent start hp-worker --kind claude --pane <pane> -- \
   --append-system-prompt-file <저장소 본체>/agents/worker.md --permission-mode dontAsk --add-dir <실행 기록 폴더> \
   --strict-mcp-config --mcp-config <저장소 본체>/.scratch/playwright-mcp.json \
-  --allowedTools Read Grep Glob Edit Write Skill 'mcp__playwright__*' 'Bash(grep *)' 'Bash(npm test*)' 'Bash(BASE_URL=*)' 'Bash(node *)' \
+  --allowedTools Read Grep Glob Edit Write Skill TaskStop 'mcp__playwright__*' 'Bash(grep *)' 'Bash(npm test*)' 'Bash(BASE_URL=*)' 'Bash(node *)' \
     'Bash(npm run typecheck*)' 'Bash(npx next typegen*)' 'Bash(npx tsc*)' 'Bash(npm run lint*)' 'Bash(git diff*)' \
-    'Bash(git status*)' 'Bash(curl *)' 'Bash(docker build*)' 'Bash(docker run*)' 'Bash(docker stop*)' 'Bash(sleep *)' \
+    'Bash(git status*)' 'Bash(curl *)' 'Bash(npm run dev*)' 'Bash(sleep *)' \
     'Bash(gh issue view*)' \
   --disallowedTools 'Bash(git commit*)' 'Bash(git push*)' 'Bash(ssh*)' 'Bash(npm install*)'
 ```
@@ -91,8 +90,8 @@ herdr agent start hp-verifier --kind codex --pane <pane> -- \
 
 | 누가 | 무엇으로 | 어느 주소 |
 |---|---|---|
-| 작업자 | 띄울 때 받은 Playwright MCP | 로컬 Docker 미리보기(`http://127.0.0.1:<배정된 포트>/`) |
-| 오케스트레이터 | 저장소 본체에 local 범위로 등록한 Playwright MCP | 로컬 미리보기. 운영 주소는 배포 뒤 확인 때만 |
+| 작업자 | 띄울 때 받은 Playwright MCP | 개발 서버(`http://127.0.0.1:<배정된 포트>/`) |
+| 오케스트레이터 | 저장소 본체에 local 범위로 등록한 Playwright MCP | 개발 서버(작업자 것이나 자기 것). 운영 주소는 배포 뒤 확인 때만 |
 | 사람 | Aside | 사람이 함께 둘러볼 때 |
 
 - 작업자에게는 MCP를 등록하지 않고 [작업자 시작 블록](#작업자-claude)의 `--strict-mcp-config --mcp-config`로 넘긴다. 작업자는 worktree 폴더에서 일해 폴더별 local 등록이 닿지 않는다. 설정의 `--isolated`로 오케스트레이터의 브라우저와 부딪히지 않는다.
