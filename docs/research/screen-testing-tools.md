@@ -137,7 +137,7 @@ Playwright CLI는 Microsoft가 "코딩 에이전트에 가장 맞는다"고 내�
 
 **뒷정리**: `close` 뒤 `list`가 "(no browsers)"를 냈고, 프로세스 목록에도 브라우저와 데몬이 남지 않았다. 데몬 폴더에는 빈 `default.err`만 남았다. 닫지 않으면 headless 브라우저는 명령이 끊긴 뒤 1시간 동안 남는다[52].
 
-**로컬 Docker 미리보기**: 차이는 주소뿐이다. CLI는 `goto http://127.0.0.1:3020/`, MCP는 `browser_navigate`의 `url`에 같은 주소를 준다. 둘 다 WSL 안에서 브라우저를 띄우므로 `npm test`가 붙는 주소와 같다. 컨테이너를 띄워 확인하지는 않았다.
+**로컬 미리보기**: 차이는 주소뿐이다. CLI는 `goto http://127.0.0.1:3020/`, MCP는 `browser_navigate`의 `url`에 같은 주소를 준다. 둘 다 WSL 안에서 브라우저를 띄우므로 `npm test`가 붙는 주소와 같다. 컨테이너를 띄워 확인하지는 않았다.
 
 **임의 코드와 파일 접근** (직접 확인)
 
@@ -219,7 +219,7 @@ claude --strict-mcp-config --mcp-config <위 JSON 파일> --allowedTools "mcp__p
 - 캡처는 `filename`을 주고 찍게 한다. 응답에 이미지가 붙지 않고 경로만 온다. 볼 때만 Read로 연다.
 - `browser_evaluate`로 값을 읽은 뒤 판정한다. hover 직후 바로 읽으면 전환 중간값(0.99)이 나왔다. 0.15초 전환이 끝난 뒤 읽는다.
 - 브라우저가 없으면 먼저 `npx -y playwright@1.64.0-alpha-1790635538000 install chromium`을 한 번 돌린다. MCP 버전을 올리면 그 안의 Playwright 버전도 확인한다.
-- 수정한 화면을 볼 때는 AGENTS.md의 Docker 순서로 미리보기를 띄우고 `http://127.0.0.1:3020/`을 연다. 소스를 고치면 이미지를 다시 만들고 컨테이너를 다시 띄운다. 운영 주소는 배포 뒤 확인에만 쓴다.
+- 수정한 화면을 띄우고 여는 절차는 [작업자 역할 파일](../../agents/worker.md#화면-확인)에 있다.
 
 ### MCP를 붙일 수 없을 때 (Playwright CLI)
 
@@ -319,7 +319,7 @@ npx -y @playwright/cli@0.1.22 close
 이유:
 
 - 확인할 항목 대부분을 한 도구의 내장 API로 다룬다. 타이핑은 `page.clock`[3], 다크 모드와 인쇄는 `emulateMedia`·`addInitScript`[6], 반응형은 뷰포트, 시각 비교는 `toHaveScreenshot`[1][2], 키보드·hover는 입력 API로 한다. Puppeteer, Cypress, Selenium에는 스크린샷 비교나 시계 제어 중 하나 이상이 없다(7.2절).
-- 로컬 `next dev`/`next build`가 이 WSL에서 돌지 않는 제약과 맞는다. 테스트가 빌드된 컨테이너에 HTTP로 붙기만 하면 된다. 공식 이미지에 브라우저와 시스템 의존성이 들어 있다[4].
+- 로컬 `next dev`/`next build`도 이 WSL에서 돈다(WSL `networkingMode=nat`일 때, `AGENTS.md` 검증 명령). 그래도 테스트는 빌드된 컨테이너에 HTTP로 붙는다. 그래야 운영과 같은 이미지를 검사하고, 개발 서버와 로컬 Node로는 그 차이를 잡지 못한다. 공식 이미지에 브라우저와 시스템 의존성이 들어 있다[4].
 - 스크린샷은 기준 이미지를 만든 환경에서만 맞는다[1]. 버전을 고정한 Docker 이미지 하나로 로컬과 CI를 같게 만들 수 있다[4].
 - Next.js 공식 문서가 Playwright 설정 안내를 두고, 운영 빌드를 대상으로 돌리라고 권한다[12].
 - 외부 시각 회귀 서비스는 필요 없다. 페이지 수가 적고 검토자가 한 명이다. 서비스는 월 무료 한도가 있고, 그중 하나(Lost Pixel)는 저장소가 보관 처리됐다(7.2절).

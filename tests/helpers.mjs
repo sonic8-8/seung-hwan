@@ -5,7 +5,7 @@ import http from "node:http";
 import https from "node:https";
 
 const BASE_URL = process.env.BASE_URL;
-if (!BASE_URL) throw new Error("BASE_URL을 지정한다. 예: BASE_URL=http://127.0.0.1:3020 npm test");
+if (!BASE_URL) throw new Error("BASE_URL을 지정한다. 예: BASE_URL=http://127.0.0.1:3030 npm test");
 
 // 이 개발 환경에서는 IPv6 연결이 멈추므로 IPv4로만 접속한다.
 export function get(path) {

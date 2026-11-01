@@ -45,11 +45,11 @@ Single-context: `GLOSSARY.md` + `docs/adr/` at the repo root. See `docs/agents/d
 
 - 타입과 린트: `npm run typecheck`, `npm run lint`
 - 이 WSL에서는 IPv6 연결이 멈추므로 `curl`에는 `-4`를 붙인다.
-- 작업 중 화면 확인: 개발 서버를 `npm run dev -- -p <포트>`로 띄운다(127.0.0.1). 소스를 고치면 바로 반영되어 다시 빌드하지 않는다. `BASE_URL=http://127.0.0.1:<포트> npm test`도 개발 서버에 붙는다. 로컬 `next dev`, `next build`는 WSL `networkingMode=nat`에서 돈다. `virtioproxy`로 두면 Turbopack의 MDX 로더가 loopback 연결에 실패해 돌지 않는다.
+- 작업 중 화면 확인: 개발 서버를 `npm run dev -- -p 3020`으로 띄운다(127.0.0.1). 소스를 고치면 바로 반영되어 다시 빌드하지 않는다. `BASE_URL=http://127.0.0.1:3020 npm test`도 개발 서버에 붙는다. 로컬 `next dev`, `next build`는 WSL `networkingMode=nat`에서 돈다. `virtioproxy`로 두면 Turbopack의 MDX 로더가 loopback 연결에 실패해 돌지 않는다.
 - 마지막 검증: 운영과 같은 이미지(Node 24, `output: "standalone"`, 이미지 안의 lint·typecheck)로 빌드하고 HTTP 테스트를 한다. 로컬 Node는 버전이 다를 수 있고, 개발 서버로는 이 차이를 잡지 못한다. Docker는 WSL 안의 Docker Engine(context `default`)을 쓴다.
   1. `docker build -t seung-hwan .`
-  2. `docker run -d --rm --name sh-test -p 127.0.0.1:3020:3000 seung-hwan`
-  3. `BASE_URL=http://127.0.0.1:3020 npm test`
+  2. `docker run -d --rm --name sh-test -p 127.0.0.1:3030:3000 seung-hwan`
+  3. `BASE_URL=http://127.0.0.1:3030 npm test`
   4. `docker stop sh-test`
 - 배포 뒤에는 `BASE_URL=https://seung-hwan.com npm test`로 운영 사이트를 확인한다.
 
