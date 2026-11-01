@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # 떠 있는 사이트의 포트폴리오 페이지를 headless Chrome으로 인쇄해 public/portfolio.pdf로 저장한다.
-# 사용: scripts/portfolio-pdf.sh [사이트 주소]   기본 주소는 http://127.0.0.1:3020
+# 사용: scripts/portfolio-pdf.sh [사이트 주소]   기본 주소는 http://127.0.0.1:3030
 # Chrome 경로는 CHROME 환경 변수로 바꾼다. 기본값은 WSL에서 쓰는 Windows Chrome이다.
 set -euo pipefail
 
-url="${1:-http://127.0.0.1:3020}/portfolio"
+url="${1:-http://127.0.0.1:3030}/portfolio"
 chrome="${CHROME:-/mnt/c/Program Files/Google/Chrome/Application/chrome.exe}"
 out="$(cd "$(dirname "$0")/.." && pwd)/public/portfolio.pdf"
 tmp="$out.tmp"

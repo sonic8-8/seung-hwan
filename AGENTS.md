@@ -45,16 +45,31 @@ Single-context: `GLOSSARY.md` + `docs/adr/` at the repo root. See `docs/agents/d
 
 - 타입과 린트: `npm run typecheck`, `npm run lint`
 - 이 WSL에서는 IPv6 연결이 멈추므로 `curl`에는 `-4`를 붙인다.
-- 빌드와 HTTP 테스트는 운영과 같은 이미지로 하도록 Docker로 한다. 로컬 `next dev`, `next build`는 WSL `networkingMode=nat`에서 돈다. `virtioproxy`로 두면 Turbopack의 MDX 로더가 loopback 연결에 실패해 돌지 않는다.
+- 작업 중 화면 확인: 개발 서버를 `npm run dev -- -p 3020`으로 띄운다(127.0.0.1). 소스를 고치면 바로 반영되어 다시 빌드하지 않는다. `BASE_URL=http://127.0.0.1:3020 npm test`도 개발 서버에 붙는다. 로컬 `next dev`, `next build`는 WSL `networkingMode=nat`에서 돈다. `virtioproxy`로 두면 Turbopack의 MDX 로더가 loopback 연결에 실패해 돌지 않는다.
+- 마지막 검증: 운영과 같은 이미지(Node 24, `output: "standalone"`, 이미지 안의 lint·typecheck)로 빌드하고 HTTP 테스트를 한다. 로컬 Node는 버전이 다를 수 있고, 개발 서버로는 이 차이를 잡지 못한다. Docker는 WSL 안의 Docker Engine(context `default`)을 쓴다.
   1. `docker build -t seung-hwan .`
-  2. `docker run -d --rm --name sh-test -p 127.0.0.1:3020:3000 seung-hwan`
-  3. `BASE_URL=http://127.0.0.1:3020 npm test`
+  2. `docker run -d --rm --name sh-test -p 127.0.0.1:3030:3000 seung-hwan`
+  3. `BASE_URL=http://127.0.0.1:3030 npm test`
   4. `docker stop sh-test`
 - 배포 뒤에는 `BASE_URL=https://seung-hwan.com npm test`로 운영 사이트를 확인한다.
 
 ## 커밋
 
-- 커밋 메시지 첫 줄은 `<타입>(<범위>)?!?: <설명>`이고 `.githooks/commit-msg`가 검사한다. clone한 뒤 한 번 설정한다: `git config core.hooksPath .githooks`
+- 첫 줄은 `<타입>(<범위>)?!?: <의도>, <원인>을 <결과>`인 한 문장이다.
+  - 의도: 무엇을 하려고 바꾸는지("…하도록", "…하려고").
+  - 원인: 바꾸기 전의 상태("…하던 …").
+  - 결과: 바꾼 뒤의 상태를 동사로 끝낸다("…로 옮김", "…를 띄움").
+  - 예: `fix(nav-link): 키보드 초점이 잘 보이도록, 밑줄을 가리던 초점 테두리를 4px 띄움`
+  - 예: `docs(orchestrator): 빌드 대기를 줄이려고, 회차마다 Docker로 빌드하던 화면 확인을 개발 서버로 옮김`
+- 타입은 Angular 타입(feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert) 중 하나다. 범위는 바꾼 모듈이나 파일의 실제 이름을 쓴다.
+- 첫 줄은 72자 이하다.
+- 문장은 ASD-STE100 원칙을 따른다.
+  - 한 문장에 한 가지 변경만 쓴다.
+  - 능동형으로 쓴다.
+  - 한 뜻에는 한 단어만 쓴다.
+  - 용어는 줄이지 않고 정확한 이름으로 쓴다(예: "dev 서버"가 아니라 "개발 서버", "repo"가 아니라 "저장소").
+- merge 커밋은 `chore: <브랜치>를 main에 합침`이다.
+- `.githooks/commit-msg`가 타입 형식과 길이를 검사한다. clone한 뒤 한 번 설정한다: `git config core.hooksPath .githooks`
 
 ## 공개 저장소
 

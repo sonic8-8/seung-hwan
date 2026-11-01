@@ -18,11 +18,11 @@ Claude 메인 세션이 맡는다. 배정, 전달, 커밋, 사용자와의 결�
 
 ## 동시 진행
 
-티켓마다 worktree를 따로 두고, `AGENTS.md` 검증 명령의 테스트 자원을 티켓 번호로 나눠 배정의 검증 명령에 적는다. 나누지 않으면 컨테이너 이름이 충돌하고, 다른 worktree의 `docker build`가 같은 태그를 덮어써 다른 티켓의 이미지를 판정하게 된다.
+티켓마다 worktree를 따로 두고, `AGENTS.md` 검증 명령의 자원을 티켓 번호로 나눠 배정의 검증 명령에 적는다. 나누지 않으면 개발 서버와 컨테이너가 포트와 이름을 두고 충돌하고, 다른 worktree의 `docker build`가 같은 태그를 덮어써 다른 티켓의 이미지를 판정하게 된다.
 
-- 이미지 태그: `seung-hwan-<번호>`
-- 컨테이너 이름: `sh-test-<번호>`
-- 포트: 작업자 3020, 3021, …, 검수자 3030, 3031, …
+- 오케스트레이터 측정용 개발 서버 포트: 3010
+- 작업자 개발 서버 포트: 3020, 3021, …
+- 검수자 마지막 검증: 이미지 태그 `seung-hwan-<번호>`, 컨테이너 이름 `sh-test-<번호>`, 포트 3030, 3031, …
 
 ## 역할 띄우기
 
@@ -38,9 +38,9 @@ pane을 작업자의 worktree로 `cd`한 뒤 띄운다. 쓸 수 있는 경로가
 herdr agent start hp-worker --kind claude --pane <pane> -- \
   --append-system-prompt-file <저장소 본체>/agents/worker.md --permission-mode dontAsk --add-dir <실행 기록 폴더> \
   --strict-mcp-config --mcp-config <저장소 본체>/.scratch/playwright-mcp.json \
-  --allowedTools Read Grep Glob Edit Write Skill 'mcp__playwright__*' 'Bash(grep *)' 'Bash(npm test*)' 'Bash(BASE_URL=*)' 'Bash(node *)' \
+  --allowedTools Read Grep Glob Edit Write Skill TaskStop 'mcp__playwright__*' 'Bash(grep *)' 'Bash(npm test*)' 'Bash(BASE_URL=*)' 'Bash(node *)' \
     'Bash(npm run typecheck*)' 'Bash(npx next typegen*)' 'Bash(npx tsc*)' 'Bash(npm run lint*)' 'Bash(git diff*)' \
-    'Bash(git status*)' 'Bash(curl *)' 'Bash(docker build*)' 'Bash(docker run*)' 'Bash(docker stop*)' 'Bash(sleep *)' \
+    'Bash(git status*)' 'Bash(curl *)' 'Bash(npm run dev*)' 'Bash(sleep *)' \
     'Bash(gh issue view*)' \
   --disallowedTools 'Bash(git commit*)' 'Bash(git push*)' 'Bash(ssh*)' 'Bash(npm install*)'
 ```
@@ -91,8 +91,8 @@ herdr agent start hp-verifier --kind codex --pane <pane> -- \
 
 | 누가 | 무엇으로 | 어느 주소 |
 |---|---|---|
-| 작업자 | 띄울 때 받은 Playwright MCP | 로컬 Docker 미리보기(`http://127.0.0.1:<배정된 포트>/`) |
-| 오케스트레이터 | 저장소 본체에 local 범위로 등록한 Playwright MCP | 로컬 미리보기. 운영 주소는 배포 뒤 확인 때만 |
+| 작업자 | 띄울 때 받은 Playwright MCP | 개발 서버(`http://127.0.0.1:<배정된 포트>/`) |
+| 오케스트레이터 | 저장소 본체에 local 범위로 등록한 Playwright MCP | 작업자가 개발 서버를 끈 뒤 같은 worktree에서 [동시 진행](#동시-진행)의 오케스트레이터 포트로 띄운 개발 서버. 같은 폴더에 개발 서버 둘은 뜨지 않으므로 확인이 끝나면 끈다. 운영 주소는 배포 뒤 확인 때만 |
 | 사람 | Aside | 사람이 함께 둘러볼 때 |
 
 - 작업자에게는 MCP를 등록하지 않고 [작업자 시작 블록](#작업자-claude)의 `--strict-mcp-config --mcp-config`로 넘긴다. 작업자는 worktree 폴더에서 일해 폴더별 local 등록이 닿지 않는다. 설정의 `--isolated`로 오케스트레이터의 브라우저와 부딪히지 않는다.
@@ -106,7 +106,7 @@ herdr agent start hp-verifier --kind codex --pane <pane> -- \
 1. 작업자에게 티켓을 배정한다. 배정에는 Issue 번호(티켓 없는 일은 기대 동작), worktree, 쓸 수 있는 경로, 쓸 스킬, 검증 명령, 결과 파일 경로, 화면을 고치는 일이면 캡처 경로(출력 폴더 아래 절대 경로, [브라우저 확인](#브라우저-확인))와 "`/implement`의 code-review 단계와 커밋 단계는 하지 않는다(리뷰어와 오케스트레이터가 한다)"를 적는다. 검증 명령은 `cd`, `;`, `&&` 없이 하나씩 실행할 단일 명령으로 적는다. 일은 `herdr agent prompt`로 작업자 pane에 `/mattpocock-skills:implement <배정 파일 경로>`를 보내 시작한다. Issue 번호는 배정 파일 안에 적는다. 이 스킬은 Skill 도구로는 부를 수 없어 pane 입력으로 보낸다.
 2. 작업자 결과를 받으면 바뀐 파일이 쓸 수 있는 경로 안에 있는지 `git status`로 보고 커밋한다. 경로 밖 변경이 있으면 커밋하지 않고 사용자에게 묻는다. 커밋하는 pane에 승인 키를 보냈으면 커밋이 끝날 때까지 같은 저장소에서 git 명령을 돌리지 않는다(`index.lock` 충돌).
 3. 리뷰어에게 티켓 시작 커밋부터의 변경을 리뷰하도록 배정한다. 필수 수정은 작업자에게 맡기고 2로 돌아간다. 선택 제안은 맡기지 않고 실행 기록에 후속 항목으로 남긴다.
-4. 리뷰를 통과하면 검수자에게 판정 기준의 판정을 배정한다. 검수 지적은 받아들여 작업자에게 맡기거나(2부터 다시), 기각 근거를 써서 검수자에게 다시 배정한다. 검수자가 기각을 받아들이지 않으면 사용자에게 묻는다.
+4. 리뷰를 통과하면 검수자에게 판정 기준의 판정을 배정한다. 검수자 배정의 검증 명령에는 `AGENTS.md`의 마지막 검증을 넣는다(동시 진행이면 [동시 진행](#동시-진행)대로 나눈 자원으로). 검수 지적은 받아들여 작업자에게 맡기거나(2부터 다시), 기각 근거를 써서 검수자에게 다시 배정한다. 검수자가 기각을 받아들이지 않으면 사용자에게 묻는다.
 5. 검수를 통과하면 결과 댓글을 달고 바로 Issue를 닫는다(`docs/agents/issue-tracker.md`의 Close). 이 댓글과 닫기는 사용자에게 묻지 않고, 댓글 초안도 보이지 않는다. 그래서 댓글에는 판정 기준별 결과와 커밋만 쓰고 `AGENTS.md`의 공개 저장소 규칙을 따른다. 그리고 막는 티켓이 모두 닫힌 다음 티켓으로 간다.
 6. 티켓이 모두 닫히면 push를 사용자에게 묻는다. push 뒤 `AGENTS.md`의 배포 확인을 하고, 상위 스펙 Issue에 결과 댓글을 달고 닫는다. 이 댓글과 닫기도 흐름 5처럼 묻지 않으며, 댓글에는 닫은 하위 티켓과 배포한 커밋만 쓴다. 그리고 검수자에게 TODO 완료 조건의 판정을 배정한다.
 7. TODO 완료 조건마다 검수 근거를 모아 사용자에게 최종 확인을 받는다. 사용자가 새 문제를 찾으면 작업자에게 맡겨 2부터 다시 거친다. 확인을 받으면 TODO 항목을 `완료`로 옮긴다.

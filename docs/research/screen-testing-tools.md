@@ -137,7 +137,7 @@ Playwright CLI는 Microsoft가 "코딩 에이전트에 가장 맞는다"고 내�
 
 **뒷정리**: `close` 뒤 `list`가 "(no browsers)"를 냈고, 프로세스 목록에도 브라우저와 데몬이 남지 않았다. 데몬 폴더에는 빈 `default.err`만 남았다. 닫지 않으면 headless 브라우저는 명령이 끊긴 뒤 1시간 동안 남는다[52].
 
-**로컬 Docker 미리보기**: 차이는 주소뿐이다. CLI는 `goto http://127.0.0.1:3020/`, MCP는 `browser_navigate`의 `url`에 같은 주소를 준다. 둘 다 WSL 안에서 브라우저를 띄우므로 `npm test`가 붙는 주소와 같다. 컨테이너를 띄워 확인하지는 않았다.
+**로컬 미리보기**: 차이는 주소뿐이다. CLI는 `goto http://127.0.0.1:3020/`, MCP는 `browser_navigate`의 `url`에 같은 주소를 준다. 둘 다 WSL 안에서 브라우저를 띄우므로 `npm test`가 붙는 주소와 같다. 컨테이너를 띄워 확인하지는 않았다.
 
 **임의 코드와 파일 접근** (직접 확인)
 
@@ -200,7 +200,7 @@ Playwright CLI는 Microsoft가 "코딩 에이전트에 가장 맞는다"고 내�
     "playwright": {
       "command": "npx",
       "args": ["-y", "@playwright/mcp@0.0.83", "--headless", "--isolated", "--browser", "chromium", "--codegen", "none",
-               "--output-dir", "<저장소>/.scratch/screen-testing/mcp-output"]
+               "--output-dir", "<저장소>/.scratch/playwright-mcp-output"]
     }
   }
 }
@@ -219,7 +219,7 @@ claude --strict-mcp-config --mcp-config <위 JSON 파일> --allowedTools "mcp__p
 - 캡처는 `filename`을 주고 찍게 한다. 응답에 이미지가 붙지 않고 경로만 온다. 볼 때만 Read로 연다.
 - `browser_evaluate`로 값을 읽은 뒤 판정한다. hover 직후 바로 읽으면 전환 중간값(0.99)이 나왔다. 0.15초 전환이 끝난 뒤 읽는다.
 - 브라우저가 없으면 먼저 `npx -y playwright@1.64.0-alpha-1790635538000 install chromium`을 한 번 돌린다. MCP 버전을 올리면 그 안의 Playwright 버전도 확인한다.
-- 수정한 화면을 볼 때는 AGENTS.md의 Docker 순서로 미리보기를 띄우고 `http://127.0.0.1:3020/`을 연다. 소스를 고치면 이미지를 다시 만들고 컨테이너를 다시 띄운다. 운영 주소는 배포 뒤 확인에만 쓴다.
+- 수정한 화면을 띄우고 여는 절차는 [작업자 역할 파일](../../agents/worker.md#화면-확인)에 있다.
 
 ### MCP를 붙일 수 없을 때 (Playwright CLI)
 
@@ -228,7 +228,7 @@ claude --strict-mcp-config --mcp-config <위 JSON 파일> --allowedTools "mcp__p
 ```sh
 cd <저장소>
 PLAYWRIGHT_CLI_SESSION=<작업자 이름> \
-PLAYWRIGHT_MCP_OUTPUT_DIR=<저장소>/.scratch/screen-testing/mcp-output \
+PLAYWRIGHT_MCP_OUTPUT_DIR=<저장소>/.scratch/playwright-mcp-output \
 NO_UPDATE_NOTIFIER=1 \
 claude --allowedTools "Bash(npx -y @playwright/cli@0.1.22 *)"
 ```
@@ -238,7 +238,7 @@ claude --allowedTools "Bash(npx -y @playwright/cli@0.1.22 *)"
 ```sh
 npx -y @playwright/cli@0.1.22 open --browser=chromium http://127.0.0.1:3020/
 npx -y @playwright/cli@0.1.22 resize 320 640
-npx -y @playwright/cli@0.1.22 screenshot --filename=.scratch/screen-testing/mcp-output/<이름>.png
+npx -y @playwright/cli@0.1.22 screenshot --filename=.scratch/playwright-mcp-output/<이름>.png
 npx -y @playwright/cli@0.1.22 --raw eval "() => getComputedStyle(document.body).backgroundColor"
 npx -y @playwright/cli@0.1.22 run-code "async (page) => { await page.clock.install(); await page.goto('http://127.0.0.1:3020/'); }"
 npx -y @playwright/cli@0.1.22 close
@@ -319,7 +319,7 @@ npx -y @playwright/cli@0.1.22 close
 이유:
 
 - 확인할 항목 대부분을 한 도구의 내장 API로 다룬다. 타이핑은 `page.clock`[3], 다크 모드와 인쇄는 `emulateMedia`·`addInitScript`[6], 반응형은 뷰포트, 시각 비교는 `toHaveScreenshot`[1][2], 키보드·hover는 입력 API로 한다. Puppeteer, Cypress, Selenium에는 스크린샷 비교나 시계 제어 중 하나 이상이 없다(7.2절).
-- 로컬 `next dev`/`next build`가 이 WSL에서 돌지 않는 제약과 맞는다. 테스트가 빌드된 컨테이너에 HTTP로 붙기만 하면 된다. 공식 이미지에 브라우저와 시스템 의존성이 들어 있다[4].
+- 로컬 `next dev`/`next build`도 이 WSL에서 돈다(WSL `networkingMode=nat`일 때, `AGENTS.md` 검증 명령). 그래도 테스트는 빌드된 컨테이너에 HTTP로 붙는다. 그래야 운영과 같은 이미지를 검사하고, 개발 서버와 로컬 Node로는 그 차이를 잡지 못한다. 공식 이미지에 브라우저와 시스템 의존성이 들어 있다[4].
 - 스크린샷은 기준 이미지를 만든 환경에서만 맞는다[1]. 버전을 고정한 Docker 이미지 하나로 로컬과 CI를 같게 만들 수 있다[4].
 - Next.js 공식 문서가 Playwright 설정 안내를 두고, 운영 빌드를 대상으로 돌리라고 권한다[12].
 - 외부 시각 회귀 서비스는 필요 없다. 페이지 수가 적고 검토자가 한 명이다. 서비스는 월 무료 한도가 있고, 그중 하나(Lost Pixel)는 저장소가 보관 처리됐다(7.2절).
@@ -449,7 +449,7 @@ Aside CLI 1.26.1028.2335로 https://seung-hwan.com/ 을 열어 `aside repl "<JS>
 
 #### WSL, Docker, Jenkins 제약
 
-- **로컬(WSL)**: 브라우저 테스트도 Docker로 한다. 앱 이미지를 띄우고, 같은 Docker 네트워크에서 Playwright 공식 이미지를 실행한다. 컨테이너끼리 통신하므로 WSL의 loopback 문제를 거치지 않는다. 이미지 태그는 `@playwright/test` 버전과 같게 고정한다[4].
+- **로컬(WSL)**: 브라우저 테스트도 Docker로 한다. 앱 이미지를 띄우고, 같은 Docker 네트워크에서 Playwright 공식 이미지를 실행한다. 대상이 운영과 같은 앱 이미지이고, 브라우저도 버전을 고정한 이미지로 맞추므로 로컬 Node·브라우저 버전 차이가 결과에 끼지 않는다. 이미지 태그는 `@playwright/test` 버전과 같게 고정한다[4].
 - **Windows Chrome에 CDP로 붙기**: `connectOverCDP`는 Chromium 계열만 되고 `connect`보다 충실도가 "상당히 낮다"고 공식 문서가 적는다[36]. 스크린샷 기준이 Windows 폰트 렌더링에 묶여 CI와 맞지 않는다. 디버깅용으로만 고려한다. Windows Chrome에 실제로 붙여 보지는 않았다. 손수 띄운 Chrome에 붙으면 hover와 스크롤바가 달라진다(3절).
 - **Jenkins**: 지금 파이프라인(`infra/ci/hetzner.Jenkinsfile`)은 `agent any`에서 소스를 앱 서버로 보내 그곳에서 `docker compose up --build`를 하고 HTTP 200만 본다. Playwright 공식 문서의 Jenkins 예시는 Docker agent(`mcr.microsoft.com/playwright:v1.64.1-noble`)다[5]. Jenkins 호스트에서 Docker agent를 쓸 수 있는지는 확인하지 못했다. 쓸 수 없으면 Verify 단계처럼 앱 서버에 SSH로 들어가 Playwright 이미지를 `--network host`로 띄워 `127.0.0.1:18084`를 대상으로 돌리는 방법이 있다. 이 방법은 앱 서버에 브라우저 이미지를 받아 두어야 한다.
 - **스크린샷 기준 이미지**: 기준 이미지는 Docker 안에서만 만들고 갱신한다. 파일 이름에 플랫폼이 붙으므로(`-chromium-linux.png`) 다른 환경에서 만든 것과 섞이지 않는다[1].
