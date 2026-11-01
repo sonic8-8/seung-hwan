@@ -55,7 +55,21 @@ Single-context: `GLOSSARY.md` + `docs/adr/` at the repo root. See `docs/agents/d
 
 ## 커밋
 
-- 커밋 메시지 첫 줄은 `<타입>(<범위>)?!?: <설명>`이고 `.githooks/commit-msg`가 검사한다. clone한 뒤 한 번 설정한다: `git config core.hooksPath .githooks`
+- 첫 줄은 `<타입>(<범위>)?!?: <의도>, <원인>을 <결과>`인 한 문장이다.
+  - 의도: 무엇을 하려고 바꾸는지("…하도록", "…하려고").
+  - 원인: 바꾸기 전의 상태("…하던 …").
+  - 결과: 바꾼 뒤의 상태를 동사로 끝낸다("…로 옮김", "…를 띄움").
+  - 예: `fix(nav-link): 키보드 초점이 잘 보이도록, 밑줄을 가리던 초점 테두리를 4px 띄움`
+  - 예: `docs(orchestrator): 빌드 대기를 줄이려고, 회차마다 Docker로 빌드하던 화면 확인을 개발 서버로 옮김`
+- 타입은 Angular 타입(feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert) 중 하나다. 범위는 바꾼 모듈이나 파일의 실제 이름을 쓴다.
+- 첫 줄은 72자 이하다.
+- 문장은 ASD-STE100 원칙을 따른다.
+  - 한 문장에 한 가지 변경만 쓴다.
+  - 능동형으로 쓴다.
+  - 한 뜻에는 한 단어만 쓴다.
+  - 용어는 줄이지 않고 정확한 이름으로 쓴다(예: "dev 서버"가 아니라 "개발 서버", "repo"가 아니라 "저장소").
+- merge 커밋은 `chore: <브랜치>를 main에 합침`이다.
+- `.githooks/commit-msg`가 타입 형식과 길이를 검사한다. clone한 뒤 한 번 설정한다: `git config core.hooksPath .githooks`
 
 ## 공개 저장소
 
