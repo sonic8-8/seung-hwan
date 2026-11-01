@@ -92,7 +92,7 @@ herdr agent start hp-verifier --kind codex --pane <pane> -- \
 | 누가 | 무엇으로 | 어느 주소 |
 |---|---|---|
 | 작업자 | 띄울 때 받은 Playwright MCP | 개발 서버(`http://127.0.0.1:<배정된 포트>/`) |
-| 오케스트레이터 | 저장소 본체에 local 범위로 등록한 Playwright MCP | 작업자가 개발 서버를 끈 뒤 같은 worktree에서 3010으로 띄운 개발 서버. 같은 폴더에 개발 서버 둘은 뜨지 않는다. 운영 주소는 배포 뒤 확인 때만 |
+| 오케스트레이터 | 저장소 본체에 local 범위로 등록한 Playwright MCP | 작업자가 개발 서버를 끈 뒤 같은 worktree에서 [동시 진행](#동시-진행)의 오케스트레이터 포트로 띄운 개발 서버. 같은 폴더에 개발 서버 둘은 뜨지 않으므로 확인이 끝나면 끈다. 운영 주소는 배포 뒤 확인 때만 |
 | 사람 | Aside | 사람이 함께 둘러볼 때 |
 
 - 작업자에게는 MCP를 등록하지 않고 [작업자 시작 블록](#작업자-claude)의 `--strict-mcp-config --mcp-config`로 넘긴다. 작업자는 worktree 폴더에서 일해 폴더별 local 등록이 닿지 않는다. 설정의 `--isolated`로 오케스트레이터의 브라우저와 부딪히지 않는다.
