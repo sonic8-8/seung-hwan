@@ -200,7 +200,7 @@ Playwright CLI는 Microsoft가 "코딩 에이전트에 가장 맞는다"고 내�
     "playwright": {
       "command": "npx",
       "args": ["-y", "@playwright/mcp@0.0.83", "--headless", "--isolated", "--browser", "chromium", "--codegen", "none",
-               "--output-dir", "<저장소>/.scratch/screen-testing/mcp-output"]
+               "--output-dir", "<저장소>/.scratch/playwright-mcp-output"]
     }
   }
 }
@@ -228,7 +228,7 @@ claude --strict-mcp-config --mcp-config <위 JSON 파일> --allowedTools "mcp__p
 ```sh
 cd <저장소>
 PLAYWRIGHT_CLI_SESSION=<작업자 이름> \
-PLAYWRIGHT_MCP_OUTPUT_DIR=<저장소>/.scratch/screen-testing/mcp-output \
+PLAYWRIGHT_MCP_OUTPUT_DIR=<저장소>/.scratch/playwright-mcp-output \
 NO_UPDATE_NOTIFIER=1 \
 claude --allowedTools "Bash(npx -y @playwright/cli@0.1.22 *)"
 ```
@@ -238,7 +238,7 @@ claude --allowedTools "Bash(npx -y @playwright/cli@0.1.22 *)"
 ```sh
 npx -y @playwright/cli@0.1.22 open --browser=chromium http://127.0.0.1:3020/
 npx -y @playwright/cli@0.1.22 resize 320 640
-npx -y @playwright/cli@0.1.22 screenshot --filename=.scratch/screen-testing/mcp-output/<이름>.png
+npx -y @playwright/cli@0.1.22 screenshot --filename=.scratch/playwright-mcp-output/<이름>.png
 npx -y @playwright/cli@0.1.22 --raw eval "() => getComputedStyle(document.body).backgroundColor"
 npx -y @playwright/cli@0.1.22 run-code "async (page) => { await page.clock.install(); await page.goto('http://127.0.0.1:3020/'); }"
 npx -y @playwright/cli@0.1.22 close
@@ -449,7 +449,7 @@ Aside CLI 1.26.1028.2335로 https://seung-hwan.com/ 을 열어 `aside repl "<JS>
 
 #### WSL, Docker, Jenkins 제약
 
-- **로컬(WSL)**: 브라우저 테스트도 Docker로 한다. 앱 이미지를 띄우고, 같은 Docker 네트워크에서 Playwright 공식 이미지를 실행한다. 컨테이너끼리 통신하므로 WSL의 loopback 문제를 거치지 않는다. 이미지 태그는 `@playwright/test` 버전과 같게 고정한다[4].
+- **로컬(WSL)**: 브라우저 테스트도 Docker로 한다. 앱 이미지를 띄우고, 같은 Docker 네트워크에서 Playwright 공식 이미지를 실행한다. 대상이 운영과 같은 앱 이미지이고, 브라우저도 버전을 고정한 이미지로 맞추므로 로컬 Node·브라우저 버전 차이가 결과에 끼지 않는다. 이미지 태그는 `@playwright/test` 버전과 같게 고정한다[4].
 - **Windows Chrome에 CDP로 붙기**: `connectOverCDP`는 Chromium 계열만 되고 `connect`보다 충실도가 "상당히 낮다"고 공식 문서가 적는다[36]. 스크린샷 기준이 Windows 폰트 렌더링에 묶여 CI와 맞지 않는다. 디버깅용으로만 고려한다. Windows Chrome에 실제로 붙여 보지는 않았다. 손수 띄운 Chrome에 붙으면 hover와 스크롤바가 달라진다(3절).
 - **Jenkins**: 지금 파이프라인(`infra/ci/hetzner.Jenkinsfile`)은 `agent any`에서 소스를 앱 서버로 보내 그곳에서 `docker compose up --build`를 하고 HTTP 200만 본다. Playwright 공식 문서의 Jenkins 예시는 Docker agent(`mcr.microsoft.com/playwright:v1.64.1-noble`)다[5]. Jenkins 호스트에서 Docker agent를 쓸 수 있는지는 확인하지 못했다. 쓸 수 없으면 Verify 단계처럼 앱 서버에 SSH로 들어가 Playwright 이미지를 `--network host`로 띄워 `127.0.0.1:18084`를 대상으로 돌리는 방법이 있다. 이 방법은 앱 서버에 브라우저 이미지를 받아 두어야 한다.
 - **스크린샷 기준 이미지**: 기준 이미지는 Docker 안에서만 만들고 갱신한다. 파일 이름에 플랫폼이 붙으므로(`-chromium-linux.png`) 다른 환경에서 만든 것과 섞이지 않는다[1].
