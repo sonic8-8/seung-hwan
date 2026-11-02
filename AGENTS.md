@@ -57,6 +57,10 @@ Single-context: `GLOSSARY.md` + `docs/adr/` at the repo root. See `docs/agents/d
 
 - 커밋하거나 브랜치를 합치기 전에 [커밋 규칙](docs/agents/commits.md)을 읽는다.
 
+## Issue와 PR
+
+- Issue나 PR을 쓰기 전에 [Issue와 PR 규칙](docs/agents/issues.md)을 읽는다.
+
 ## 공개 저장소
 
 이 저장소와 Issue는 공개다. 커밋 메시지, Issue, 문서, 코드 주석에는 사이트와 코드에 관한 내용만 쓴다. 사용자의 개인 일정과 다른 곳과의 관계는 저장소 밖(`TODO.md`, `.scratch/`)에 둔다.
